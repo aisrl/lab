@@ -1,0 +1,18 @@
+---
+title: "04. Zero-Knowledge Proofs for ML (ZKML)"
+description: "Compile neural networks into ZK-SNARK circuits to prove inference integrity."
+---
+
+# 04. Zero-Knowledge Proofs for ML (ZKML)
+
+> **Status**: Claimed by Michael | **Difficulty**: High
+
+## Summary
+
+Compile a neural network into a ZK-SNARK circuit (e.g., via EZKL) so a prover can cryptographically prove that output $Y$ came from running private weights $W$ on input $X$, without revealing the weights themselves.
+
+## Technical Scope
+
+- **Threat Model**: An API provider claims to run an audited, aligned model version, but secretly substitutes a cheaper, unaligned model to save compute.
+- **Student Challenge**: Quantize a small model, compile the computational graph into arithmetic constraints, and generate a succinct proof.
+- **Grading**: Verification scripts checking that valid proofs pass and spoofed inputs or manipulated intermediate activations fail.

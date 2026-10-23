@@ -1,0 +1,18 @@
+---
+title: "01. Chip Location Verification"
+description: "Delay-based geolocation verifier and defense against latency spoofing."
+---
+
+# 01. Chip Location Verification
+
+> **Status**: Ready for Development | **Difficulty**: High
+
+## Summary
+
+Build a delay-based geolocation verifier using ping and round-trip-time (RTT) triangulation across landmark servers. Students implement defenses against an adversary attempting to spoof latency or proxy traffic through relays to hide unauthorized GPU cluster locations.
+
+## Technical Scope
+
+- **Threat Model**: An untrusted cloud operator claims training hardware is within a compliant jurisdiction while routing workloads through restricted borders.
+- **Student Challenge**: Implement RTT triangulation with outlier rejection and statistical latency bounding.
+- **Grading**: Automated tests evaluating detection accuracy against simulated proxy delays.

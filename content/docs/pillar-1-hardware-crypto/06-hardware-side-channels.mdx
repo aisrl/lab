@@ -1,0 +1,18 @@
+---
+title: "06. Hardware Side-Channel Attacks"
+description: "Reverse-engineering model architectures through memory and cache access traces."
+---
+
+# 06. Hardware Side-Channel Attacks
+
+> **Status**: Ready for Development | **Difficulty**: High
+
+## Summary
+
+Analyze simulated GPU memory-access traces, cache timings, or power consumption logs to reverse-engineer a victim model's layer architecture and hyperparameters.
+
+## Technical Scope
+
+- **Threat Model**: Co-located tenant on shared accelerator hardware attempting to steal private model structures through physical side channels.
+- **Student Challenge**: Extract layer dimensions and activation functions from timing delays and cache hit/miss profiles.
+- **Grading**: Automated evaluation measuring how closely the reconstructed architecture matches the ground truth.

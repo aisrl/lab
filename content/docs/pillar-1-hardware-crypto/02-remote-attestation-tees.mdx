@@ -1,0 +1,18 @@
+---
+title: "02. Remote Attestation & TEEs"
+description: "Hardware roots of trust and cryptographic attestation quotes for AI models."
+---
+
+# 02. Remote Attestation & TEEs
+
+> **Status**: Ready for Development | **Difficulty**: High
+
+## Summary
+
+Use a simulated Trusted Execution Environment (TEE enclave mock / Gramine) to generate cryptographic attestation quotes proving a specific model binary and weight hash are running unmodified inside secure memory.
+
+## Technical Scope
+
+- **Threat Model**: A compromised host OS or hypervisor attempting to inspect or alter model weights during inference.
+- **Student Challenge**: Generate and verify hardware attestation quotes, validating measurement registers (PCRs / MRENCLAVE).
+- **Grading**: Automated verification verifying measurement signatures and detecting unauthorized weight modifications.

@@ -1,0 +1,17 @@
+---
+title: "Overview: Pillar 1"
+description: "Hardware, Cryptographic & Compute Verification for Frontier AI Models."
+---
+
+# Pillar 1: Hardware, Cryptographic & Compute Verification
+
+This pillar focuses on verifying who is training models, where the physical GPUs are located, and mathematically proving model execution without leaking proprietary weights or training data.
+
+## Submodules in this Pillar
+
+- **01. Chip Location Verification**: Latency triangulation and defense against VPN/relay spoofing.
+- **02. Remote Attestation & TEEs**: Verifying model binaries inside secure enclaves.
+- **03. Proof-of-Training & Cryptographic Logs**: Merkle trees of gradient updates and batch seeds.
+- **04. Zero-Knowledge Proofs for ML (ZKML)**: Generating ZK-SNARK proofs of inference integrity. *(Claimed by Michael)*
+- **05. Confidential Inference & MPC**: Multi-party computation and secret sharing for private queries.
+- **06. Hardware Side-Channel Attacks**: GPU cache timing and memory trace analysis.

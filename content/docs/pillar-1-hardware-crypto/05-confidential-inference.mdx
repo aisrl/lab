@@ -1,0 +1,18 @@
+---
+title: "05. Confidential Inference & MPC"
+description: "Secure multi-party computation and secret sharing for private model inference."
+---
+
+# 05. Confidential Inference & MPC
+
+> **Status**: Ready for Development | **Difficulty**: High
+
+## Summary
+
+Implement secret-sharing or homomorphic encryption wrappers around an inference endpoint so a user can query a sensitive model without the host server ever seeing the plaintext prompt.
+
+## Technical Scope
+
+- **Threat Model**: Host servers exfiltrating private user queries or users reverse-engineering proprietary model parameters.
+- **Student Challenge**: Implement additive secret sharing over linear layers and evaluate latency vs. privacy trade-offs.
+- **Grading**: Test suites validating correctness of reconstructed inference results against unencrypted baselines.

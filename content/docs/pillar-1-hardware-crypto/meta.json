@@ -1,0 +1,12 @@
+{
+  "title": "Pillar 1: Hardware & Crypto",
+  "pages": [
+    "index",
+    "01-chip-location",
+    "02-remote-attestation-tees",
+    "03-proof-of-training",
+    "04-zkml",
+    "05-confidential-inference",
+    "06-hardware-side-channels"
+  ]
+}

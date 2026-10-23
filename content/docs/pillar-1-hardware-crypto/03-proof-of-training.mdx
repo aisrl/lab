@@ -1,0 +1,18 @@
+---
+title: "03. Proof-of-Training & Cryptographic Logs"
+description: "Merkle-tree verification of training steps, batch seeds, and checkpoints."
+---
+
+# 03. Proof-of-Training & Cryptographic Logs
+
+> **Status**: Ready for Development | **Difficulty**: Medium–High
+
+## Summary
+
+Construct a hash-chained Merkle tree of intermediate gradient updates, batch seeds, and checkpoints so an auditor can verify that a model was trained on an approved dataset and below a compute cap without re-running the entire training job.
+
+## Technical Scope
+
+- **Threat Model**: An entity claims to have trained a safe model according to safety agreements, but secretly trained on forbidden data or surpassed compute caps.
+- **Student Challenge**: Implement efficient Merkle commitment trees for training steps and write a lightweight audit verifier.
+- **Grading**: Self-grading tests that detect skipped batches, altered seeds, and tampered checkpoint weights.
