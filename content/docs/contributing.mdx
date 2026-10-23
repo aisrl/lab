@@ -1,0 +1,24 @@
+---
+title: "Contributor Guide"
+description: "Guidelines and instructions for students contributing new lab submodules to AISRL."
+---
+
+# Contributing to AISRL Labs
+
+Welcome to the AI Safety Research Lab! This guide explains how to build and contribute a submodule.
+
+## Quick Workflow
+
+1. **Pick or Claim a Module**: Review the [Roadmap](/docs/roadmap) and confirm your topic with the project lead.
+2. **Create a Feature Branch**:
+   ```bash
+   git checkout -b feature/pillar-X-module-name
+   ```
+3. **Where to Place Files**:
+   - Write your lab manual in `content/docs/pillar-X/your-module.mdx`.
+   - Put your runnable code and tests in `labs/pillar-X/your-module/`.
+4. **Use the Template**: Refer to the [Module Template](/docs/template-module) for recommended sections.
+5. **Verify Locally**:
+   - Run `pnpm dev` or `npm run dev` to preview your writeup.
+   - Run `pytest` inside your lab directory to test your challenge.
+6. **Open a Pull Request**: Push your branch to GitHub and create a PR for review.
