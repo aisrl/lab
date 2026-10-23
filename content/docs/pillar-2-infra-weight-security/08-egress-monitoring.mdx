@@ -1,0 +1,18 @@
+---
+title: "08. Egress Monitoring & Rate-Limiting"
+description: "Blue-team countermeasure inspecting outbound traffic for steganographic leakage."
+---
+
+# 08. Egress Monitoring & Rate-Limiting
+
+> **Status**: Ready for Development | **Difficulty**: Medium–High
+
+## Summary
+
+Build the defensive countermeasure to Module 07: an intelligent egress proxy and entropy analyzer that inspects outbound API traffic, catches steganographic weight leakage, and enforces rate limits without breaking legitimate user traffic.
+
+## Technical Scope
+
+- **Threat Model**: Covert channel exfiltration attempts hiding data in log probabilities, response times, or formatting anomalies.
+- **Student Challenge**: Implement entropy estimation, statistical anomaly detection on logprob distributions, and adaptive throttling.
+- **Grading**: Automated tests measuring detection rate of simulated leakage vs. false-positive rate on benign queries.

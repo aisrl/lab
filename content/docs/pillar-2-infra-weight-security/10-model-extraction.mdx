@@ -1,0 +1,18 @@
+---
+title: "10. Model Extraction & Distillation Theft"
+description: "Query-efficient model stealing attacks and watermarking detection defenses."
+---
+
+# 10. Model Extraction & Distillation Theft
+
+> **Status**: Ready for Development | **Difficulty**: Medium–High
+
+## Summary
+
+Execute a query-efficient model stealing attack against a black-box teacher API to clone its capabilities into a local student model, then implement output watermarking and perturbation defenses to detect stolen derivatives.
+
+## Technical Scope
+
+- **Threat Model**: Competitor querying a proprietary frontier API to train a derivative model without paying development or alignment costs.
+- **Student Challenge**: Generate active-learning synthetic queries to train a surrogate model, and implement logit perturbation watermarking.
+- **Grading**: Metric tracking clone capability vs. query count, plus detection rate of the watermark in derivative weights.

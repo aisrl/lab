@@ -1,0 +1,11 @@
+{
+  "title": "Pillar 2: Infrastructure & Weights",
+  "pages": [
+    "index",
+    "07-weight-exfiltration",
+    "08-egress-monitoring",
+    "09-supply-chain-pickle",
+    "10-model-extraction",
+    "11-kv-cache-side-channels"
+  ]
+}

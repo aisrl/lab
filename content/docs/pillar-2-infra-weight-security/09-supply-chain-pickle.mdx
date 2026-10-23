@@ -1,0 +1,18 @@
+---
+title: "09. ML Supply Chain & Serialization Exploits"
+description: "Crafting malicious checkpoints and building static scanners and safetensors loaders."
+---
+
+# 09. ML Supply Chain & Serialization Exploits
+
+> **Status**: Ready for Development | **Difficulty**: Medium
+
+## Summary
+
+Craft a malicious PyTorch `.pt` / `pickle` checkpoint that executes arbitrary code upon loading, then build a static bytecode scanner and `safetensors` migration pipeline that neutralizes the threat.
+
+## Technical Scope
+
+- **Threat Model**: An attacker uploads a weaponized model checkpoint to an open-source hub (e.g., HuggingFace) targeting training/inference pipelines.
+- **Student Challenge**: Construct a proof-of-concept pickle payload and author a static opcode disassembler to flag unsafe opcodes (`GLOBAL`, `REDUCE`).
+- **Grading**: Automated tests checking that weaponized models are flagged and safe models convert losslessly to `safetensors`.

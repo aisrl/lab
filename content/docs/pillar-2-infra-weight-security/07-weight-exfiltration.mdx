@@ -1,0 +1,18 @@
+---
+title: "07. Weight Exfiltration & Covert Channels"
+description: "Simulating insider weight smuggling via subtle token variations and timing delays."
+---
+
+# 07. Weight Exfiltration & Covert Channels
+
+> **Status**: Claimed by Ashanti | **Difficulty**: Medium–High
+
+## Summary
+
+Act as an insider threat attempting to smuggle quantized model weight shards out of a restricted network environment by encoding weight bits into subtle token logprob variations or timing delays over a public API endpoint.
+
+## Technical Scope
+
+- **Threat Model**: An authorized employee or compromised internal node with API access seeking to exfiltrate proprietary model weights without triggering file-transfer alarms.
+- **Student Challenge**: Develop an encoding and decoding scheme to transmit weight parameters covertly through API query responses.
+- **Grading**: Verification evaluating channel throughput, bit error rate, and evasion against standard traffic volume monitors.

@@ -1,0 +1,18 @@
+---
+title: "11. Inference Engine & KV-Cache Exploits"
+description: "Exploiting shared prefix caching and KV-cache timing channels in multi-tenant serving."
+---
+
+# 11. Inference Engine & KV-Cache Exploits
+
+> **Status**: Ready for Development | **Difficulty**: High
+
+## Summary
+
+Exploit shared prefix caching (Prompt/KV-cache timing side-channels in multi-tenant serving engines like vLLM) to infer what prompts other users on the same GPU cluster are submitting.
+
+## Technical Scope
+
+- **Threat Model**: Multi-tenant inference server with prefix caching enabled to optimize latency across repeated prompts.
+- **Student Challenge**: Measure first-token latency differences to detect cache hits on target prefix substrings and reconstruct private query templates.
+- **Grading**: Self-grading test evaluating reconstruction accuracy on a simulated multi-tenant vLLM cache instance.
