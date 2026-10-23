@@ -1,0 +1,83 @@
+---
+title: "Curriculum Roadmap"
+description: "Master list of 30 submodules across 6 pillars and open research topics."
+---
+
+# Master Curriculum Roadmap
+
+This roadmap outlines the complete set of 30 planned lab modules across all 6 technical pillars. 
+
+Pillars 1 and 2 represent the active sprint. Pillars 3 through 6 represent upcoming modules open for research and development.
+
+---
+
+## Pillar 1: Hardware, Cryptographic & Compute Verification *(Active)*
+
+*Focus: Verifying compute locations, TEE enclaves, and cryptographic proofs of training.*
+
+1. **Chip Location Verification**: Delay-based latency triangulation and defense against VPN/relay spoofing.
+2. **Remote Attestation & TEEs**: Cryptographic attestation quotes for model binaries and weights.
+3. **Proof-of-Training & Cryptographic Logs**: Merkle trees of gradient updates and batch seeds.
+4. **Zero-Knowledge Proofs for ML (ZKML)**: ZK-SNARK circuit compilation for private inference integrity. *(Claimed by Michael)*
+5. **Confidential Inference & MPC**: Secret-sharing and homomorphic encryption wrappers.
+6. **Hardware Side-Channel Attacks**: GPU memory access and cache timing reverse-engineering.
+
+---
+
+## Pillar 2: Infrastructure, Weight & Supply Chain Security *(Active)*
+
+*Focus: Datacenter security, weight theft prevention, and supply chain integrity.*
+
+7. **Weight Exfiltration & Covert Channels**: Steganographic weight smuggling via token logprobs. *(Claimed by Ashanti)*
+8. **Egress Monitoring & Rate-Limiting**: Traffic inspection and entropy analysis for exfiltration defense.
+9. **ML Supply Chain & Serialization Exploits**: Malicious PyTorch pickle exploits and safe safetensors migration.
+10. **Model Extraction & Distillation Theft**: Query-efficient model cloning attacks and watermarking defenses.
+11. **Inference Engine & KV-Cache Exploits**: Shared prefix caching side-channels in multi-tenant serving engines.
+
+---
+
+## Pillar 3: Adversarial Robustness & Automated Red-Teaming *(Upcoming)*
+
+12. **White-Box Gradient Jailbreaking (GCG & AutoDAN)**
+13. **Black-Box Automated Red-Teaming Harnesses**
+14. **Activation Steering & Refusal Ablation**
+15. **Multimodal Adversarial Perturbations**
+16. **Input/Output Guardrails & Perplexity Filters**
+
+---
+
+## Pillar 4: Backdoors, Data Poisoning & Machine Unlearning *(Upcoming)*
+
+17. **Sleeper Agents & Conditional Backdoor Injection**
+18. **Backdoor Detection & Activation Clustering**
+19. **Machine Unlearning & Capability Erasure (RMU)**
+20. **Unlearning Robustness & Re-Learning Attacks**
+21. **RAG & Vector Database Poisoning**
+
+---
+
+## Pillar 5: Agentic Security, Sandboxing & AI Control *(Upcoming)*
+
+22. **Indirect Prompt Injection & Tool-Call Exploitation**
+23. **AI Control: Trusted Monitoring of Untrusted Coding Agents**
+24. **Chain-of-Thought (CoT) Monitorability & Scheming**
+25. **Container Sandboxing & Agent Escape Mitigation**
+26. **Multi-Agent Collusion & Sybil Attacks**
+
+---
+
+## Pillar 6: Technical Governance, Auditing & Treaty Verification *(Upcoming)*
+
+27. **Compute Accounting & FLOP-Threshold Auditing**
+28. **Differential Privacy & Membership Inference Auditing**
+29. **Watermarking & Provenance Verification (SynthID)**
+30. **Structured API Access & KYC Enforcement Gateways**
+
+---
+
+## How to Claim a Module
+
+If you are a student researcher interested in authoring one of the upcoming modules:
+1. Review the [Contributor Guide](/docs/contributing).
+2. Reach out to the project lead on Slack to reserve the topic.
+3. Open a branch following the `feature/pillar-X-module-name` convention.
