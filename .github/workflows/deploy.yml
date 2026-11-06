@@ -34,9 +34,13 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          pnpm approve-builds --all || true
+          pnpm install
 
       - name: Build site (Next.js static export)
+        env:
+          BASE_PATH: ${{ vars.BASE_PATH || '/lab' }}
         run: pnpm build
 
       - name: Upload artifact for GitHub Pages
