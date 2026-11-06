@@ -1,0 +1,6 @@
+{
+  "title": "Interactive Lab (Example)",
+  "pages": [
+    "00-prompt-injection-guard"
+  ]
+}
