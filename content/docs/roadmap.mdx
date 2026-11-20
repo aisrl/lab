@@ -1,77 +1,106 @@
 ---
 title: "Curriculum Roadmap"
-description: "Master list of 30 submodules across 6 pillars and open research topics."
+description: "The 7-Pillar Master Curriculum (37 submodules), compute feasibility filters, and long-term design rationale."
 ---
 
 # Master Curriculum Roadmap
 
-This roadmap outlines the complete set of 30 planned lab modules across all 6 technical pillars. 
+That mindset—**"build a focused, self-contained lab and link out to deeper resources like Anthropic or ARENA"**—is actually the best way to run a Body of Knowledge. It turns your site into a true hub instead of trying to boil the ocean.
 
-Pillars 1 and 2 represent the active sprint. Pillars 3 through 6 represent upcoming modules open for research and development.
+And your **compute feasibility filter** is the exact guardrail you need as TPM. A good hard rule for every contributor in `#project-core` is: **every lab must run locally on a student laptop (CPU/Docker), a free Colab T4 GPU (under 15 minutes), or under \$2 in API credits.** Anything that requires pre-training from scratch, multi-GPU clusters, or real H100 hardware gets cut or scaled down to a clean simulation.
 
----
-
-## Pillar 1: Hardware, Cryptographic & Compute Verification *(Active)*
-
-*Focus: Verifying compute locations, TEE enclaves, and cryptographic proofs of training.*
-
-1. **Chip Location Verification**: Delay-based latency triangulation and defense against VPN/relay spoofing.
-2. **Remote Attestation & TEEs**: Cryptographic attestation quotes for model binaries and weights.
-3. **Proof-of-Training & Cryptographic Logs**: Merkle trees of gradient updates and batch seeds.
-4. **Zero-Knowledge Proofs for ML (ZKML)**: ZK-SNARK circuit compilation for private inference integrity. *(Claimed by Michael)*
-5. **Confidential Inference & MPC**: Secret-sharing and homomorphic encryption wrappers.
-6. **Hardware Side-Channel Attacks**: GPU memory access and cache timing reverse-engineering.
+With that filter applied, splitting into **7 Pillars** actually cleans up the architecture nicely—it separates **Agentic & Cyber Security (Pillar 5)** from **AI Control, Evals & Oversight (Pillar 6)**, which maps directly to your lab's identity at the intersection of AI Security and Technical AI Safety.
 
 ---
 
-## Pillar 2: Infrastructure, Weight & Supply Chain Security *(Active)*
+### The Compute Feasibility Filter (What Stays Out vs. How Tricky Labs Survive)
 
-*Focus: Datacenter security, weight theft prevention, and supply chain integrity.*
-
-7. **Weight Exfiltration & Covert Channels**: Steganographic weight smuggling via token logprobs. *(Claimed by Ashanti)*
-8. **Egress Monitoring & Rate-Limiting**: Traffic inspection and entropy analysis for exfiltration defense.
-9. **ML Supply Chain & Serialization Exploits**: Malicious PyTorch pickle exploits and safe safetensors migration.
-10. **Model Extraction & Distillation Theft**: Query-efficient model cloning attacks and watermarking defenses.
-11. **Inference Engine & KV-Cache Exploits**: Shared prefix caching side-channels in multi-tenant serving engines.
+* **Cut completely:** Pre-training models from scratch, training Sparse Autoencoders (SAEs) from scratch, full-scale RLHF on 7B+ models, or requiring real Intel SGX / NVIDIA H100 Confidential Computing hardware.
+* **How the heavy topics stay lightweight:**
+  * **Fine-tuning / Unlearning / GCG / Probes:** Run exclusively on 0.5B–2B open-weight models (like Qwen-2.5-0.5B, Llama-3.2-1B, or Gemma-2-2B) using LoRA or pre-trained SAEs (e.g., Gemma Scope) so everything runs on a free Colab T4.
+  * **Hardware / Crypto / Cluster Telemetry:** Use tiny 2-layer MLPs for ZKML/MPC, pre-recorded trace files for GPU side-channels, mocked enclaves in Docker for TEEs, and synthetic log files for FLOP auditing.
 
 ---
 
-## Pillar 3: Adversarial Robustness & Automated Red-Teaming *(Upcoming)*
+### The 7-Pillar Master Curriculum (37 Submodules)
 
-12. **White-Box Gradient Jailbreaking (GCG & AutoDAN)**
-13. **Black-Box Automated Red-Teaming Harnesses**
-14. **Activation Steering & Refusal Ablation**
-15. **Multimodal Adversarial Perturbations**
-16. **Input/Output Guardrails & Perplexity Filters**
+#### Pillar 1: Hardware, Cryptographic & Compute Verification
+
+*Focus: Verifying where chips are, what code is running, and proving ML execution mathematically.* *(Runs on: Laptop CPU / Docker / Tiny MLPs)*
+
+1. **Chip Location Verification** *(Nicolás's List)* — Delay-based geolocation via ping/RTT triangulation and defending against VPN/relay spoofing.
+2. **Remote Attestation & Hardware Roots of Trust / TEEs** *(Nicolás's List)* — Generating and verifying cryptographic attestation quotes in a simulated enclave environment.
+3. **Proof-of-Training & Cryptographic Training Logs** *(Nicolás's List)* — Hash-chained Merkle trees of gradient updates and batch seeds on a small CNN to verify dataset/compute compliance.
+4. **Zero-Knowledge Proofs for ML (ZKML)** *(Nicolás's List — Claimed by Michael)* — Compiling a compact neural net into a ZK-SNARK circuit (e.g., EZKL) to prove inference without revealing weights.
+5. **Confidential Inference & Multiparty Computation (MPC)** — Wrapping a small classifier in secret-sharing/homomorphic encryption (e.g., Concrete-ML) so the server never sees the plaintext input.
+6. **Hardware Side-Channel Analysis on ML Accelerators** — Analyzing pre-captured GPU memory/cache timing traces to reverse-engineer a model's layer architecture.
+
+#### Pillar 2: Infrastructure, Model Serving & Weight Security
+
+*Focus: Securing model weights, serialization pipelines, and multi-tenant inference servers.* *(Runs on: Laptop CPU / Docker)*
+
+7. **Weight Exfiltration & Covert Channels** *(Nicolás's List — Claimed by Ashanti)* — Smuggling quantized weight bits out via subtle API token logprob shifts or timing channels.
+8. **Egress Monitoring & Rate-Limiting Defenses** *(Nicolás's List)* — Building an egress proxy and entropy analyzer to catch steganographic weight leaks without breaking normal traffic.
+9. **ML Supply Chain & Serialization Exploitation** — Crafting a malicious `.pt`/`pickle` payload and building a static bytecode scanner + `safetensors` loader to neutralize it.
+10. **Model Extraction & Distillation Theft** — Executing a query-efficient black-box stealing attack against a teacher API and building watermarking/perturbation defenses.
+11. **Inference Engine & KV-Cache Side-Channels** — Exploiting shared prefix caching timing leaks in a local serving engine to infer another tenant's prompt.
+12. **Serving Runtime & Graph-Compiler Exploits** — Exploiting insecure ONNX/tensor deserialization endpoints in a containerized inference server and hardening the runtime.
+
+#### Pillar 3: Adversarial Robustness, Red-Teaming & White-Box Auditing
+
+*Focus: Automated inference-time attacks, guardrails, and lightweight internal-state auditing.* *(Runs on: Free Colab T4 + 0.5B–2B models)*
+
+13. **White-Box Gradient Jailbreaking (GCG & AutoDAN)** — Implementing GCG suffix optimization on a 0.5B–1B open-weight model to bypass safety alignment.
+14. **Black-Box Automated Red-Teaming Harnesses** — Building an automated attacker-target mutation loop (PyRIT/Garak style) to systematically map failure modes.
+15. **Activation Steering & Refusal Ablation** — Extracting the residual-stream "refusal vector" via contrastive pairs, ablating it, and building an activation-norm anomaly detector.
+16. **White-Box Deception Probes & Pre-Trained SAE Monitors** *(New — links out to ARENA/Anthropic)* — Training a linear probe or using a pre-trained Gemma Scope SAE feature monitor to flag deceptive/sycophantic completions at runtime.
+17. **Multimodal Adversarial Perturbations** — Generating $L_\infty$-bounded pixel noise on images to hijack a small Vision-Language Model (VLM).
+18. **Layered Input/Output Guardrails & Perplexity Filters** — Combining perplexity filters, embedding classifiers, and lightweight guard models while keeping false positives under 5%.
+
+#### Pillar 4: Training Integrity, Backdoors & Machine Unlearning
+
+*Focus: Training-time sabotage, preference poisoning, and surgically erasing hazardous capabilities.* *(Runs on: Free Colab T4 + LoRA)*
+
+19. **Sleeper Agents & Conditional Backdoor Injection** — LoRA fine-tuning a small coding model to inject subtle CWE bugs only when a specific trigger header/year is present.
+20. **Backdoor Detection & Activation Clustering** — Writing a spectral signature / clustering scanner to reverse-engineer hidden trigger tokens in a mystery checkpoint.
+21. **Machine Unlearning & Capability Erasure (RMU)** — Implementing Representation Misdirection for Unlearning on a 1B–2B model to erase a target knowledge domain while preserving general accuracy.
+22. **Unlearning Robustness & Re-Learning Attacks** — Red-teaming an unlearned model via few-shot prompting, quantization shifts, or tiny-sample LoRA fine-tuning, then testing circuit-breaker defenses.
+23. **Reward Hacking & DPO Preference Poisoning** *(New)* — Poisoning 2% of a preference dataset to hijack a compact reward model, then implementing KL-penalties and anomaly filtering to block it.
+24. **RAG & Vector Database Poisoning** — Crafting adversarial passages optimized for high cosine-similarity retrieval in FAISS/`pgvector` to hijack generation.
+
+#### Pillar 5: Agentic Security & Cyber-AI Sandboxing
+
+*Focus: Securing tool-using autonomous agents, container isolation, and cyber offense/defense sandboxes.* *(Runs on: Laptop CPU / Docker / Cheap API calls)*
+
+25. **Indirect Prompt Injection & MCP/Tool-Call Exploitation** — Embedding hidden instructions in web/email data to exfiltrate files via tool calls, then implementing Dual-LLM privilege separation.
+26. **Container Sandboxing & Agent Escape Mitigation** — Auditing a misconfigured Docker sandbox running an autonomous bash agent and patching escape vectors with seccomp/gVisor rules.
+27. **Multi-Agent Collusion & Sybil Attacks** — Simulating compromised worker agents coordinating via covert shared-state signals to beat a supervisor vote, then breaking the channel with randomized paraphrasing.
+28. **AI Cyber-Offense Capability Evals & CTF Sandboxing** — Building an isolated CTF eval harness to test if an agent can exploit a local binary/SQLi bug, plus tripwires to halt lateral movement.
+29. **Autonomous Vulnerability Patching & Blue-Team Defense** — Building an AIxCC-style defensive pipeline that ingests fuzzer crash traces, patches source code, and verifies fixes with regression tests.
+
+#### Pillar 6: AI Control, Capability Evals & Scalable Oversight
+
+*Focus: Catching scheming, deceptive, or superhuman-on-narrow-tasks models during evaluation and deployment.* *(Runs on: API calls / Free Colab T4)*
+
+30. **AI Control: Trusted Monitoring of Untrusted Agents** — Building a ControlArena-style trusted monitor (weaker LLM + AST static analysis) to catch subtle logic bombs from an untrusted coding agent under an audit budget.
+31. **Chain-of-Thought (CoT) Monitorability & Steganographic Scheming** — Auditing reasoning traces for deceptive intent and detecting when an agent switches to encoded euphemisms.
+32. **Sandbagging Detection & Capability Elicitation** *(New)* — Writing an elicitation harness (weight-noise injection, scaffolding, or probing fine-tunes) to expose a model intentionally hiding its true capability ceiling on an eval.
+33. **Scalable Oversight: AI Safety via Debate** *(New)* — Building a debate harness where two strong models argue opposing sides of a tricky bug/proof and optimizing the cross-examination protocol so a weaker judge model beats baseline accuracy.
+
+#### Pillar 7: Technical Governance, Auditing & Treaty Verification
+
+*Focus: Translating AI treaties, privacy laws, and compute caps into executable auditors and enforcement gateways.* *(Runs on: Laptop CPU / Python)*
+
+34. **Compute Accounting & FLOP-Threshold Auditing** — Writing an auditor over synthetic datacenter telemetry to detect labs splitting a $10^{26}$ FLOP training run across sub-jobs to evade reporting caps.
+35. **Differential Privacy & Membership Inference Auditing** — Running a loss-thresholding MIA to detect private training data, then implementing DP-SGD gradient clipping and noise injection.
+36. **Watermarking & Provenance Verification (SynthID)** — Implementing green-list/red-list token logit watermarking, building a statistical $z$-score detector, and stress-testing against paraphrasing.
+37. **Structured API Access & KYC Enforcement Gateways** — Building an API gateway with stateful risk-scoring to catch multi-account Sybil splitting of dual-use queries and trigger automated circuit breakers.
 
 ---
 
-## Pillar 4: Backdoors, Data Poisoning & Machine Unlearning *(Upcoming)*
+### Why This 7-Pillar Split Works Better Long-Term
 
-17. **Sleeper Agents & Conditional Backdoor Injection**
-18. **Backdoor Detection & Activation Clustering**
-19. **Machine Unlearning & Capability Erasure (RMU)**
-20. **Unlearning Robustness & Re-Learning Attacks**
-21. **RAG & Vector Database Poisoning**
-
----
-
-## Pillar 5: Agentic Security, Sandboxing & AI Control *(Upcoming)*
-
-22. **Indirect Prompt Injection & Tool-Call Exploitation**
-23. **AI Control: Trusted Monitoring of Untrusted Coding Agents**
-24. **Chain-of-Thought (CoT) Monitorability & Scheming**
-25. **Container Sandboxing & Agent Escape Mitigation**
-26. **Multi-Agent Collusion & Sybil Attacks**
-
----
-
-## Pillar 6: Technical Governance, Auditing & Treaty Verification *(Upcoming)*
-
-27. **Compute Accounting & FLOP-Threshold Auditing**
-28. **Differential Privacy & Membership Inference Auditing**
-29. **Watermarking & Provenance Verification (SynthID)**
-30. **Structured API Access & KYC Enforcement Gateways**
+Now that you're thinking across multiple semesters, this 7-pillar layout actually solves a subtle tension that the 6-pillar version had: **Pillar 5 is pure Agent & Cyber Security** (very appealing to traditional security/systems students), while **Pillar 6 is pure Technical AI Safety Control & Evals** (very appealing to safety/alignment fellows). Every pillar has 4 to 6 tight, runnable labs, nothing requires frontier-lab compute, and every single module can end with a **"Go Deeper"** section linking straight to ARENA, Anthropic's Transformer Circuits, MIT 6.5950, or RAND reports.
 
 ---
 
