@@ -1,20 +1,27 @@
 ---
 title: "Module Template (Copy This)"
-description: "Starter template for authoring a lab submodule writeup."
+description: "Standard template and reference implementation for authoring an AISRL lab submodule writeup."
 ---
 
-# Lab Title: Submodule Name
-
-> **Difficulty**: Medium | **Estimated Time**: 2–3 hours | **Target Points**: 15 / 100
-
----
+<LabHeader
+  pillar="Pillar X: Your Pillar Name"
+  title="Submodule Title: Lab Objective"
+  difficulty="Intermediate"
+  time="15-20 mins"
+  compute="Laptop CPU / Docker"
+  githubPath="labs/pillar-X/your-submodule"
+/>
 
 ## 1. Overview & Threat Model
 
-Explain the scenario in simple terms:
+Explain the scenario in clear, accessible terms:
 - What is the real-world safety or security risk?
-- Who is the attacker and what are they trying to do?
-- Why does standard defensive training or monitoring fail here?
+- Who is the adversary and what capabilities do they possess?
+- Why do standard defenses fail here?
+
+<Callout type="warn" title="Adversarial Threat Model">
+Describe what an attacker can observe or execute (e.g. black-box API queries, poisoned training samples, side-channel memory traces).
+</Callout>
 
 ---
 
@@ -22,7 +29,7 @@ Explain the scenario in simple terms:
 
 Briefly cover the core concepts needed to understand the lab:
 - Key terms, algorithms, or mechanics.
-- Relevant equations, diagrams, or references.
+- Mathematical principles or architectural foundations.
 
 ---
 
@@ -30,53 +37,118 @@ Briefly cover the core concepts needed to understand the lab:
 
 Clearly outline what the learner must accomplish:
 
-- **Objective**: Describe the end goal (e.g., extract a hidden bitstring, bypass an alignment filter, build an egress detector).
-- **Inputs**: What starter files or API endpoints are provided?
-- **Outputs**: What artifact or return value is expected?
+<Steps>
+<Step>
+### Inspect the Starter Code
+
+Review the provided starter implementation and identify the security vulnerability or defense gap:
+
+<Files>
+  <Folder name="your-submodule" defaultOpen>
+    <Folder name="starter" defaultOpen>
+      <File name="challenge.py" />
+      <File name="requirements.txt" />
+    </Folder>
+    <Folder name="tests">
+      <File name="test_challenge.py" />
+    </Folder>
+    <Folder name="solution">
+      <File name="challenge_solution.py" />
+    </Folder>
+  </Folder>
+</Files>
+</Step>
+
+<Step>
+### Implement Your Exploit or Defense
+
+Complete the functions marked `# TODO` in `starter/challenge.py`.
+</Step>
+
+<Step>
+### Verify Against the Test Suite
+
+Run the automated self-grader locally to ensure your implementation passes all edge cases.
+</Step>
+</Steps>
 
 ---
 
-## 4. Setup & Starter Code
+## 4. Environment Setup
 
-Explain how students can access and run the lab environment:
+Choose the execution environment that best fits your local setup:
 
-```bash
-# Clone the repository and enter this lab's directory
-cd labs/pillar-X/your-lab-name
+<Tabs items={['Local Python', 'Docker Container', 'Google Colab']}>
+  <Tab value="Local Python">
+  ```bash
+  # Navigate to the starter directory
+  cd labs/pillar-X/your-submodule/starter
 
-# Install required dependencies
-pip install -r requirements.txt
+  # Install requirements
+  pip install -r requirements.txt
+  ```
+  </Tab>
+
+  <Tab value="Docker Container">
+  ```bash
+  # Build and run the sandboxed lab container
+  docker build -t aisrl-lab .
+  docker run --rm -it aisrl-lab pytest tests/
+  ```
+  </Tab>
+
+  <Tab value="Google Colab">
+  Launch the lab directly in Google Colab with a free T4 GPU instance:
+  
+  [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
+  </Tab>
+</Tabs>
+
+---
+
+## 5. Hints & Self-Verification
+
+<Hint title="Stuck on the exploit logic?">
+Consider checking the boundary conditions or how the tokenizer handles special sequence tokens before computing logprob differences.
+</Hint>
+
+<Solution title="Reveal Reference Solution">
+```python
+def defend_against_attack(input_data: str) -> bool:
+    # Sanitized validation logic
+    return validate_input(input_data)
 ```
-
-*(Optional: If your lab uses Docker or Google Colab, add those launch commands or links here.)*
-
----
-
-## 5. Self-Grading & Verification
-
-Explain how students can check their own work before submitting:
+</Solution>
 
 ```bash
-# Run the self-grading test suite
+# Run the local pytest verification suite
 pytest tests/
 ```
 
-- **Pass Condition**: What does full credit look like (e.g., `4 passed in 2.10s`)?
-- **Common Pitfalls**: List 1 or 2 common bugs students run into.
+- **Pass Criteria**: `tests/test_challenge.py` passes with `100%` test coverage.
 
 ---
 
-## 6. Citations & References
+## 6. Go Deeper: Citations & Resources
 
-- Research Paper: *Author et al., "Title of Paper", Year.*
-- Upstream Tool / Repo: *[Repository Name](https://github.com/...)*
+<Cards>
+  <Card
+    title="ARENA Alignment Labs"
+    description="Explore deeper technical exercises on interpretability, SAEs, and RLHF."
+    href="https://www.arena.education/"
+  />
+  <Card
+    title="Anthropic Transformer Circuits"
+    description="Research papers on mechanistic interpretability and sparse feature dictionaries."
+    href="https://transformer-circuits.pub/"
+  />
+</Cards>
 
 ---
 
 ### Contributors & Metadata
 
 - **Authors**: Jane Doe ([@janedoe](https://github.com/)), John Smith ([@johnsmith](https://github.com/))
-- **Reviewers & Editors**: [Editor Name](https://github.com/)
-- **Level**: Advanced Undergraduate / Introductory Graduate
-- **Prerequisites**: Python 3.10+, PyTorch basics
-- **Last Updated**: October 2026
+- **Reviewers**: [Editor Name](https://github.com/)
+- **Compute Verified**: Tested on Apple M2 (CPU) & Colab T4 GPU (< 5 minutes)
+- **Last Updated**: November 2026

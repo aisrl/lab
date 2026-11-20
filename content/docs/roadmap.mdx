@@ -7,9 +7,11 @@ description: "The 7-Pillar Master Curriculum (37 submodules), compute feasibilit
 
 That mindset—**"build a focused, self-contained lab and link out to deeper resources like Anthropic or ARENA"**—is actually the best way to run a Body of Knowledge. It turns your site into a true hub instead of trying to boil the ocean.
 
-And your **compute feasibility filter** is the exact guardrail you need as TPM. A good hard rule for every contributor in `#project-core` is: **every lab must run locally on a student laptop (CPU/Docker), a free Colab T4 GPU (under 15 minutes), or under \$2 in API credits.** Anything that requires pre-training from scratch, multi-GPU clusters, or real H100 hardware gets cut or scaled down to a clean simulation.
+<Callout type="info" title="The Golden Compute Feasibility Rule">
+**Every lab must run locally on a student laptop (CPU/Docker), a free Colab T4 GPU (under 15 minutes), or under \$2 in API credits.** Anything that requires pre-training from scratch, multi-GPU clusters, or real H100 hardware gets cut or scaled down to a clean simulation.
+</Callout>
 
-With that filter applied, splitting into **7 Pillars** actually cleans up the architecture nicely—it separates **Agentic & Cyber Security (Pillar 5)** from **AI Control, Evals & Oversight (Pillar 6)**, which maps directly to your lab's identity at the intersection of AI Security and Technical AI Safety.
+With that filter applied, splitting into **7 Pillars** cleans up the architecture nicely—it separates **Agentic & Cyber Security (Pillar 5)** from **AI Control, Evals & Oversight (Pillar 6)**, mapping directly to your lab's identity at the intersection of AI Security and Technical AI Safety.
 
 ---
 
@@ -101,6 +103,33 @@ With that filter applied, splitting into **7 Pillars** actually cleans up the ar
 ### Why This 7-Pillar Split Works Better Long-Term
 
 Now that you're thinking across multiple semesters, this 7-pillar layout actually solves a subtle tension that the 6-pillar version had: **Pillar 5 is pure Agent & Cyber Security** (very appealing to traditional security/systems students), while **Pillar 6 is pure Technical AI Safety Control & Evals** (very appealing to safety/alignment fellows). Every pillar has 4 to 6 tight, runnable labs, nothing requires frontier-lab compute, and every single module can end with a **"Go Deeper"** section linking straight to ARENA, Anthropic's Transformer Circuits, MIT 6.5950, or RAND reports.
+
+---
+
+## Deeper Reference Material & Hub Links
+
+<Cards>
+  <Card
+    title="ARENA 3.0 Alignment Course"
+    description="Alignment Research Engineer Accelerator labs covering interpretability, SAEs, and RLHF."
+    href="https://www.arena.education/"
+  />
+  <Card
+    title="Anthropic Transformer Circuits"
+    description="Groundbreaking research papers on reverse-engineering transformer internal representations."
+    href="https://transformer-circuits.pub/"
+  />
+  <Card
+    title="MIT CSAIL Hardware Security"
+    description="Physical compute verification, confidential computing, and hardware roots of trust."
+    href="https://hardsec.csail.mit.edu/"
+  />
+  <Card
+    title="RAND AI Governance Series"
+    description="Treaty verification, FLOP threshold accounting, and frontier model compute governance."
+    href="https://www.rand.org/"
+  />
+</Cards>
 
 ---
 
