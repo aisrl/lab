@@ -28,7 +28,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       <footer className="foot">
         <div className="container foot__row">
           <p className="foot__sign">
-            Maintained by the <a href="https://sites.gatech.edu/aisrl/">AI Security Research Lab (AISRL)</a> at Georgia Tech. Written in the open; corrections and new labs are welcome.
+            Maintained by the <a href="https://sites.gatech.edu/aisrl/">AI Safety Research Lab (AISRL)</a> at Georgia Tech. Written in the open; corrections and new labs are welcome.
           </p>
           <ul className="foot__links">
             <li><Link href="/docs">Curriculum</Link></li>
