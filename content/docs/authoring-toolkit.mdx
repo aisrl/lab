@@ -211,6 +211,74 @@ The test script is plain Python with `assert` and `print`, run after the learner
 
 See the [worked example](/docs/interactive-tutorial/00-prompt-injection-guard) for a full runner with a real autograder. Keep the test code deterministic and fast.
 
+## Figure beside text
+
+Use `Split` when a diagram or image explains the text next to it. The figure sits on one side and the words on the other. On a phone the figure comes first, then the text.
+
+<Split side="left" size="md">
+<SplitMedia caption="A tall diagram keeps its shape.">
+<Mermaid chart="
+graph TD
+  A[Learner reads the writeup] --> B[Learner writes the code]
+  B --> C[Autograder runs]
+  C -->|all pass| D[Score fills in]
+  C -->|a check fails| B
+" />
+</SplitMedia>
+<SplitText>
+
+Put the figure on the left when the picture leads, and the explanation follows it. Anything works in the text column: paragraphs, lists, callouts and maths.
+
+<Callout type="success" title="Good for">
+Vertical flowcharts, architecture diagrams and screenshots that are taller than they are wide.
+</Callout>
+
+</SplitText>
+</Split>
+
+<Split side="right" size="sm" align="center">
+<SplitMedia caption="A small figure on the right.">
+<Mermaid chart="
+graph TD
+  X[Input] --> Y[Guard] --> Z[Output]
+" />
+</SplitMedia>
+<SplitText>
+
+Mirror it with `side="right"`, and make the figure smaller with `size="sm"` when it is a minor aid and the text should lead. Use `align="center"` to centre the two columns on each other.
+
+</SplitText>
+</Split>
+
+````mdx
+<Split side="left" size="md">
+<SplitMedia caption="A caption under the figure.">
+<Mermaid chart="
+graph TD
+  A[Start] --> B[Finish]
+" />
+</SplitMedia>
+<SplitText>
+
+Your text goes here. Leave a blank line after the opening tag
+so Markdown works inside.
+
+</SplitText>
+</Split>
+````
+
+- `side` is `left` or `right`: where the figure sits.
+- `size` is `sm` (a third of the row), `md` (five twelfths) or `lg` (half).
+- `align` is `start` (default) or `center`.
+
+For an image, put it inside `SplitMedia` in place of the diagram. Save the file in the `public/images` folder and refer to it as `/images/your-lab/figure-1.png`. Always add alt text.
+
+````mdx
+<SplitMedia caption="What the learner sees.">
+![The autograder output showing four passing checks](/images/your-lab/autograder.png)
+</SplitMedia>
+````
+
 ## Steps and file trees
 
 <Steps>

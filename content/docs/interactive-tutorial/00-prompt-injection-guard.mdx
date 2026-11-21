@@ -38,14 +38,18 @@ In autonomous agent systems, **Indirect Prompt Injection** occurs when an LLM pr
 Frontier models often fail to separate control instructions from untrusted data. If the model complies with embedded attacker instructions, private credentials or system prompts are leaked.
 </Callout>
 
+<Split side="left" size="md">
+<SplitMedia caption="Where the guard sits: between the model and everyone who could receive a leak.">
 <Mermaid chart="
-graph LR
+graph TD
   W[Hidden text on a web page] -->|read by the agent| M[Model]
   S[System prompt holding the canary] --> M
   M -->|candidate reply| G[Output guard]
   G -->|clean| U[User]
   G -->|canary found| L[Block and alert]
 " />
+</SplitMedia>
+<SplitText>
 
 <Callout type="error" title="The attack">
 An attacker leaves hidden instructions on a webpage the agent will read:
@@ -59,17 +63,33 @@ An attacker leaves hidden instructions on a webpage the agent will read:
 Plant a **canary token** in the system prompt: a unique secret string such as `CANARY_9841_X` that has no legitimate reason to appear in any reply. An **output guard** checks every outbound reply for the canary, in plain text and in the encodings an attacker is likely to ask for, before anything is released.
 </Callout>
 
+</SplitText>
+</Split>
+
 <Callout type="idea" title="For contributors">
-The diagram, the red attack note and the green defence note follow the [colour rule](/docs/authoring-toolkit#colour-rule): red for what the attacker does, green for what the defender does.
+The figure on the left and the text on the right use `Split`, and the notes follow the [colour rule](/docs/authoring-toolkit#colour-rule): red for what the attacker does, green for what the defender does. Swap `side="left"` for `side="right"` to mirror the layout. See [Figure beside text](/docs/authoring-toolkit#figure-beside-text).
 </Callout>
 
 ### Why encodings matter
+
+<Split side="right" size="sm" align="center">
+<SplitMedia caption="Encoding changes how the canary looks.">
+<Mermaid chart="
+graph TD
+  C[Canary, 17 bytes] --> E[Encode as base64 or hex]
+  E --> L[Longer string, 24 or 34 characters]
+" />
+</SplitMedia>
+<SplitText>
 
 An attacker who can't get the canary out as plain text will ask for it encoded. The encoded form is longer, so a guard has to look for each form separately. For a canary of $n$ bytes:
 
 $$
 \text{len}_{\text{base64}} = 4\left\lceil \frac{n}{3} \right\rceil \qquad \text{len}_{\text{hex}} = 2n
 $$
+
+</SplitText>
+</Split>
 
 The lab's canary, `CANARY_SEC_9921_Z`, is 17 bytes. In base64 it becomes 24 characters, and in hex it becomes 34. Neither contains the original string.
 

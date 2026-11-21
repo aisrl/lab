@@ -11,6 +11,7 @@ import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { Banner } from 'fumadocs-ui/components/banner';
 import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
 import { Mermaid } from './mdx/mermaid';
+import { Split, SplitMedia, SplitText } from './mdx/split';
 
 // Custom AISRL Interactive Components
 import { Quiz } from './interactive/quiz';
@@ -45,6 +46,9 @@ export function getMDXComponents(components?: MDXComponents) {
     Banner,
     ImageZoom,
     Mermaid,
+    Split,
+    SplitMedia,
+    SplitText,
 
     // AISRL Interactive Components
     Quiz,
