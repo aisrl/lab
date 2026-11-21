@@ -2,9 +2,11 @@
   "title": "Curriculum",
   "pages": [
     "index",
+    "---Contribute---",
     "contributing",
-    "credits",
+    "authoring-toolkit",
     "template-module",
+    "credits",
     "---Interactive Example---",
     "interactive-tutorial",
     "---Active Pillars---",

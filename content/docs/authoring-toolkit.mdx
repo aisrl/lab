@@ -1,0 +1,283 @@
+---
+title: "Authoring Toolkit"
+description: "Every component available in an AISRL lab, shown live, with the code to copy."
+---
+
+Everything below is already registered, so you can use it in any `.mdx` lab file without importing anything. Each section shows the component working, then the code.
+
+## Lab header and score
+
+Put the header and the score at the top of every lab. The score fills in when a learner passes the in-browser runner with the same `labId`.
+
+<LabHeader
+  pillar="Pillar X: Your Pillar Name"
+  title="Your Lab Title"
+  difficulty="Beginner"
+  time="30-45 mins"
+  compute="Laptop CPU or Docker"
+  author="Your Name"
+/>
+
+<LabProgress labId="toolkit-demo" totalPoints={20} />
+
+```mdx
+<LabHeader
+  pillar="Pillar X: Your Pillar Name"
+  title="Your Lab Title"
+  difficulty="Beginner"
+  time="30-45 mins"
+  compute="Laptop CPU or Docker"
+  author="Your Name"
+  colabUrl="https://colab.research.google.com/..."   {/* optional */}
+/>
+
+<LabProgress labId="your-lab-id" totalPoints={20} />
+```
+
+`difficulty` is `Beginner`, `Intermediate` or `Advanced`. The byline also comes from the page's `author` frontmatter.
+
+## Callouts
+
+The edge colour carries the meaning, so use the right type.
+
+<Callout type="warn" title="Threat model">
+Amber is for threat-model notes, caveats and thresholds.
+</Callout>
+
+<Callout type="error" title="Attack vector">
+Red is for attacks, exploits and things that fail.
+</Callout>
+
+<Callout type="success" title="Defence">
+Green is for defences, patches and things that pass.
+</Callout>
+
+<Callout type="info" title="Background">
+Ink is for plain information.
+</Callout>
+
+```mdx
+<Callout type="warn" title="Threat model">
+Amber is for threat-model notes, caveats and thresholds.
+</Callout>
+```
+
+Types: `warn`, `error`, `success`, `info`, `idea`.
+
+## Concept check
+
+A single question with an explanation. Use one per section at most.
+
+<Quiz
+  question="Why is a plain substring match not enough to catch a leaked secret?"
+  options={[
+    "Models cannot repeat strings from their prompts.",
+    "An attacker can ask for the secret in an encoding such as Base64 or hex.",
+    "Substring matching is too slow.",
+  ]}
+  correctIndex={1}
+  explanation="Encoded output no longer contains the secret as plain text, so a naive check passes it."
+/>
+
+```mdx
+<Quiz
+  question="Your question?"
+  options={["Option A", "Option B", "Option C"]}
+  correctIndex={1}
+  explanation="Why that answer is right."
+/>
+```
+
+`correctIndex` counts from zero.
+
+## Hints and the reference solution
+
+Hints open one at a time. Put the solution last, and always tell learners to try first.
+
+<Hint title="Hint 1: Where to look">
+Check how the function handles the input before it reaches the model.
+</Hint>
+
+<Solution title="View the reference solution">
+```python
+def defend(text: str) -> bool:
+    return validate(text)
+```
+</Solution>
+
+```mdx
+<Hint title="Hint 1: Where to look">
+Check how the function handles the input before it reaches the model.
+</Hint>
+
+<Solution title="View the reference solution">
+(a fenced code block goes here)
+</Solution>
+```
+
+## In-browser Python runner
+
+The runner loads Python in the browser (Pyodide), runs the learner's code, then runs your test script in the same session. If every `assert` passes, it records a pass under the `labId`. It needs the starting code, the test script and the points.
+
+````mdx
+<PythonRunner
+  labId="your-lab-id"
+  points={10}
+  initialCode={`def double(x):
+    # TODO: return x doubled
+    raise NotImplementedError
+`}
+  testCode={`
+assert double(2) == 4, "double(2) should be 4"
+print("Test 1 passed (5 pts)")
+
+assert double(-3) == -6, "double(-3) should be -6"
+print("Test 2 passed (5 pts)")
+`}
+/>
+````
+
+The test script is plain Python with `assert` and `print`, run after the learner's code, so it can call whatever they defined. Print one line per check, and keep the script deterministic and fast.
+
+See the [worked example](/docs/interactive-tutorial/00-prompt-injection-guard) for a full runner with a real autograder. Keep the test code deterministic and fast.
+
+## Steps and file trees
+
+<Steps>
+<Step>
+### Read the starter code
+
+Say what the learner should look for.
+</Step>
+
+<Step>
+### Fill in the gap
+
+Say what to implement.
+</Step>
+</Steps>
+
+<Files>
+  <Folder name="your-lab" defaultOpen>
+    <Folder name="starter">
+      <File name="challenge.py" />
+    </Folder>
+    <Folder name="tests">
+      <File name="test_challenge.py" />
+    </Folder>
+  </Folder>
+</Files>
+
+```mdx
+<Steps>
+<Step>
+### Read the starter code
+
+Say what the learner should look for.
+</Step>
+</Steps>
+
+<Files>
+  <Folder name="your-lab" defaultOpen>
+    <File name="challenge.py" />
+  </Folder>
+</Files>
+```
+
+## Tabs
+
+<Tabs items={['Local Python', 'Docker']}>
+  <Tab value="Local Python">
+  ```bash
+  pip install -r requirements.txt
+  pytest tests/
+  ```
+  </Tab>
+  <Tab value="Docker">
+  ```bash
+  docker build -t aisrl-lab .
+  docker run --rm aisrl-lab pytest tests/
+  ```
+  </Tab>
+</Tabs>
+
+```mdx
+<Tabs items={['Local Python', 'Docker']}>
+  <Tab value="Local Python">(content)</Tab>
+  <Tab value="Docker">(content)</Tab>
+</Tabs>
+```
+
+## Diagrams
+
+Mermaid diagrams follow the light and dark theme.
+
+<Mermaid chart="
+graph LR
+  A[Attacker] -->|prompt| M[Model]
+  M -->|output| G[Guard]
+  G -->|clean| U[User]
+  G -->|blocked| L[Audit log]
+" />
+
+```mdx
+<Mermaid chart="
+graph LR
+  A[Attacker] -->|prompt| M[Model]
+  M --> G[Guard]
+" />
+```
+
+## Maths
+
+Inline maths uses single dollar signs, and display maths uses double: $\|\delta\|_\infty \le \epsilon$.
+
+$$
+\min_\delta \mathcal{L}(x + \delta, y) \quad \text{subject to} \quad \|\delta\|_\infty \le \epsilon
+$$
+
+```mdx
+Inline: $\|\delta\|_\infty \le \epsilon$
+
+$$
+\min_\delta \mathcal{L}(x + \delta, y)
+$$
+```
+
+## Cards and accordions
+
+<Cards>
+  <Card title="ARENA" href="https://www.arena.education/">
+    Alignment engineering course.
+  </Card>
+  <Card title="Transformer Circuits" href="https://transformer-circuits.pub/">
+    Papers on how transformers compute.
+  </Card>
+</Cards>
+
+<Accordions>
+  <Accordion title="Why a deterministic test?">
+    A flaky test teaches the wrong lesson. Seed anything random.
+  </Accordion>
+</Accordions>
+
+```mdx
+<Cards>
+  <Card title="Title" href="https://example.com">One line.</Card>
+</Cards>
+
+<Accordions>
+  <Accordion title="Question?">Answer.</Accordion>
+</Accordions>
+```
+
+## Colour rule
+
+Keep the page monochrome with one accent, and use colour only for meaning:
+
+- **Red** for attacks, red-team prompts and failing tests.
+- **Green** for defences, patches and passing checks.
+- **Amber** for threat-model notes, thresholds and caveats.
+- **Magenta** for navigation, links and buttons, and nothing else.
+
+Never give each pillar its own colour.

@@ -6,6 +6,7 @@
     "08-egress-monitoring",
     "09-supply-chain-pickle",
     "10-model-extraction",
-    "11-kv-cache-side-channels"
+    "11-kv-cache-side-channels",
+    "12-serving-runtime-exploits"
   ]
 }

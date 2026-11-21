@@ -1,24 +1,137 @@
 ---
 title: "Contributor Guide"
-description: "Guidelines and instructions for students contributing new lab submodules to AISRL."
+description: "Everything you need to write, test and ship a new AISRL lab, in one place."
 ---
 
-# Contributing to AISRL Labs
+A lab here is a writeup, some starter code and a test suite that grades itself. This page is the map. Start with the resources, then follow the workflow.
 
-Welcome to the AI Safety Research Lab! This guide explains how to build and contribute a submodule.
+## Resources
 
-## Quick Workflow
+<Cards>
+  <Card title="Module template" href="/docs/template-module">
+    A complete lab writeup to copy. Every section, every component, already in place.
+  </Card>
+  <Card title="Authoring toolkit" href="/docs/authoring-toolkit">
+    Every component you can use in a lab, shown live, with the code to paste.
+  </Card>
+  <Card title="Worked example" href="/docs/interactive-tutorial/00-prompt-injection-guard">
+    The one finished lab, with an in-browser Python runner and an autograder. Read it to see the standard.
+  </Card>
+  <Card title="Roadmap" href="/docs/roadmap">
+    All 37 planned labs, with the compute budget each one must fit.
+  </Card>
+  <Card title="Credits" href="/docs/credits">
+    Who owns which lab. Your name goes here once you ship.
+  </Card>
+  <Card title="llms.txt" href="/llms.txt">
+    The whole curriculum as plain text. Paste it into a coding assistant to give it the context.
+  </Card>
+</Cards>
 
-1. **Pick or Claim a Module**: Review the [Roadmap](/docs/roadmap) and confirm your topic with the project lead.
-2. **Create a Feature Branch**:
-   ```bash
-   git checkout -b feature/pillar-X-module-name
-   ```
-3. **Where to Place Files**:
-   - Write your lab manual in `content/docs/pillar-X/your-module.mdx`.
-   - Put your runnable code and tests in `labs/pillar-X/your-module/`.
-4. **Use the Template**: Refer to the [Module Template](/docs/template-module) for recommended sections. Be sure to fill in the **Contributors & Metadata** section to credit yourself, co-authors, and reviewers.
-5. **Verify Locally**:
-   - Run `pnpm dev` or `npm run dev` to preview your writeup.
-   - Run `pytest` inside your lab directory to test your challenge.
-6. **Open a Pull Request**: Push your branch to GitHub and create a PR for review.
+## The compute rule
+
+<Callout type="info" title="Every lab must fit one of three budgets">
+A laptop (CPU or Docker), a free Colab T4 in under 15 minutes, or a free API tier or local model. Anything that needs pre-training from scratch, a multi-GPU cluster or real H100 hardware is cut or turned into a simulation. Check the [roadmap](/docs/roadmap) for the budget your topic has been given.
+</Callout>
+
+## Workflow
+
+<Steps>
+<Step>
+### Claim a lab
+
+Pick a planned lab on the [roadmap](/docs/roadmap) and tell the project lead. Claimed labs are marked on the roadmap and credited on the [Credits](/docs/credits) page.
+</Step>
+
+<Step>
+### Branch
+
+```bash
+git checkout -b feature/pillar-X-module-name
+```
+</Step>
+
+<Step>
+### Put the files in the right place
+
+<Files>
+  <Folder name="content" defaultOpen>
+    <Folder name="docs" defaultOpen>
+      <Folder name="pillar-X-your-pillar" defaultOpen>
+        <File name="NN-your-lab.mdx" />
+      </Folder>
+    </Folder>
+  </Folder>
+  <Folder name="labs" defaultOpen>
+    <Folder name="pillar-X" defaultOpen>
+      <Folder name="NN-your-lab" defaultOpen>
+        <Folder name="starter">
+          <File name="challenge.py" />
+          <File name="requirements.txt" />
+        </Folder>
+        <Folder name="tests">
+          <File name="test_challenge.py" />
+        </Folder>
+        <Folder name="solution">
+          <File name="challenge_solution.py" />
+        </Folder>
+      </Folder>
+    </Folder>
+  </Folder>
+</Files>
+
+The writeup lives under `content/docs`. The code and the tests live under `labs`. The solution folder is optional but recommended.
+</Step>
+
+<Step>
+### Write the lab
+
+Copy the [module template](/docs/template-module), then use the [authoring toolkit](/docs/authoring-toolkit) to add a quiz, hints, a reference solution or an in-browser runner. In the frontmatter, add `author: "Your Name"` and your byline appears on the page.
+</Step>
+
+<Step>
+### Test it
+
+```bash
+pnpm dev                          # preview the writeup
+cd labs/pillar-X/NN-your-lab
+pip install -r starter/requirements.txt
+pytest tests/                     # run the autograder
+```
+</Step>
+
+<Step>
+### Open a pull request
+
+Push your branch and open a PR. A reviewer will use the checklist below.
+</Step>
+</Steps>
+
+## Review checklist
+
+A lab is ready to merge when:
+
+- The threat model names an attacker, what they can do, and why obvious defences fail.
+- It runs inside one of the three compute budgets, and says which.
+- `pytest` fails on the starter code and passes on the solution.
+- Every test has a one-line docstring saying what it proves.
+- Every quiz answer has an explanation, and every hint helps without giving the answer away.
+- Red is used for attacks and failures, green for defences and passes, amber for caveats. Nothing else gets a colour.
+- It ends with a "Go deeper" section linking to papers or courses.
+
+## Questions
+
+<Accordions>
+  <Accordion title="Can I add a new pillar topic that is not on the roadmap?">
+    Yes. Open an issue describing the threat model and the compute budget first. If it fits one of the three budgets, it can go on the roadmap.
+  </Accordion>
+  <Accordion title="Do I have to build the in-browser runner?">
+    No. A writeup, starter code and a pytest suite is a complete lab. The in-browser runner is for labs small enough to run in Python in the browser.
+  </Accordion>
+  <Accordion title="How do I get credited?">
+    Put `author: "Your Name"` in the lab's frontmatter and add yourself to the [Credits](/docs/credits) page in the same pull request.
+  </Accordion>
+  <Accordion title="Where do I ask for help?">
+    Message the project lead, or open a draft pull request and ask there.
+  </Accordion>
+</Accordions>
