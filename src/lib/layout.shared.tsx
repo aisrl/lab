@@ -24,6 +24,10 @@ export function baseOptions(): BaseLayoutProps {
         text: 'Contributing',
         url: '/docs/contributing',
       },
+      {
+        text: 'llms.txt',
+        url: '/llms.txt',
+      },
     ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };
