@@ -44,7 +44,24 @@ function MermaidContent({ chart }: { chart: string }) {
     securityLevel: 'loose',
     fontFamily: 'inherit',
     themeCSS: 'margin: 1.5rem auto 0;',
-    theme,
+    theme: theme === 'dark' ? 'dark' : 'base',
+    themeVariables: {
+      fontFamily: 'inherit',
+      fontSize: '14px',
+      background: 'transparent',
+      primaryColor: '#e6e9ee',
+      primaryTextColor: '#161b24',
+      primaryBorderColor: '#2b3340',
+      secondaryColor: '#d5d9df',
+      tertiaryColor: '#e6e9ee',
+      lineColor: '#3a4350',
+      textColor: '#161b24',
+      edgeLabelBackground: '#e6e9ee',
+      clusterBkg: '#dde1e7',
+      clusterBorder: '#7c8592',
+      noteBkgColor: '#e6e9ee',
+      noteBorderColor: '#2b3340',
+    },
   });
 
   const { svg, bindFunctions } = use(
@@ -55,7 +72,7 @@ function MermaidContent({ chart }: { chart: string }) {
 
   return (
     <div
-      className="not-prose my-6 flex justify-center overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/50 dark:bg-zinc-900/40 p-4"
+      className="not-prose my-6 flex justify-center overflow-x-auto border-y border-fd-border py-5"
       ref={(container) => {
         if (container) bindFunctions?.(container);
       }}
