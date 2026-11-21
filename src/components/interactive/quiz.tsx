@@ -1,26 +1,47 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { awardPoints, getItemPoints, registerItem } from '@/lib/lab-progress';
 
 interface QuizProps {
   question: string;
   options: string[];
   correctIndex: number;
   explanation: string;
+  /** Ties the question to a lab's score. Without it the question is practice only. */
+  labId?: string;
+  /** Unique within the lab. Defaults to a name made from the question. */
+  id?: string;
+  points?: number;
 }
 
 const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-export function Quiz({ question, options, correctIndex, explanation }: QuizProps) {
+function slug(s: string) {
+  return 'quiz-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+}
+
+export function Quiz({ question, options, correctIndex, explanation, labId, id, points = 5 }: QuizProps) {
+  const itemId = id ?? slug(question);
   const [selected, setSelected] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [wrongTries, setWrongTries] = useState(0);
+  const [earned, setEarned] = useState(0);
 
   const isCorrect = selected === correctIndex;
+
+  useEffect(() => {
+    if (!labId) return;
+    registerItem(labId, itemId, points);
+    setEarned(getItemPoints(labId, itemId));
+  }, [labId, itemId, points]);
 
   useEffect(() => {
     const onReset = () => {
       setSelected(null);
       setSubmitted(false);
+      setWrongTries(0);
+      setEarned(0);
     };
     window.addEventListener('aisrl_lab_reset', onReset);
     return () => window.removeEventListener('aisrl_lab_reset', onReset);
@@ -30,6 +51,14 @@ export function Quiz({ question, options, correctIndex, explanation }: QuizProps
     if (submitted && isCorrect) return; // locked once correct
     setSelected(idx);
     setSubmitted(true);
+    if (idx === correctIndex) {
+      // Full points on the first try, half after a wrong answer.
+      const pts = wrongTries === 0 ? points : Math.floor(points / 2);
+      setEarned(pts);
+      if (labId) awardPoints(labId, itemId, pts);
+    } else {
+      setWrongTries((n) => n + 1);
+    }
   };
 
   const handleReset = () => {
@@ -39,7 +68,14 @@ export function Quiz({ question, options, correctIndex, explanation }: QuizProps
 
   return (
     <div className="not-prose my-8 border-t-2 border-fd-foreground bg-fd-muted/60 px-5 pb-5 pt-4">
-      <p className="text-sm font-semibold text-fd-primary">Concept check</p>
+      <div className="flex items-baseline justify-between gap-4">
+        <p className="text-sm font-semibold text-fd-primary">Concept check</p>
+        {labId && (
+          <p className={`text-sm font-medium [font-variant-numeric:tabular-nums] ${earned > 0 ? 'text-fd-success' : 'text-fd-muted-foreground'}`}>
+            {earned} / {points} points
+          </p>
+        )}
+      </div>
       <h4 className="mt-1 mb-4 text-xl font-semibold leading-snug tracking-tight text-fd-foreground">{question}</h4>
 
       <ul className="space-y-2">

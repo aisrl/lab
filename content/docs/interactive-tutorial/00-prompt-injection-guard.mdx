@@ -12,7 +12,7 @@ author: "AISRL Core Architecture"
   compute="In-Browser (Pyodide) / Python"
 />
 
-<LabProgress labId="demo-guard" totalPoints={20} />
+<LabProgress labId="demo-guard" totalPoints={40} />
 
 <Callout type="idea" title="For contributors: this page is the standard">
 Everything on this page is built from components you can reuse. Each part is marked with a note like this one, and links to its entry in the [authoring toolkit](/docs/authoring-toolkit). Learners can skip the notes.
@@ -22,7 +22,7 @@ Everything on this page is built from components you can reuse. Each part is mar
 | Spec table and live score | `LabHeader`, `LabProgress` | [Lab header and score](/docs/authoring-toolkit#lab-header-and-score) |
 | Attack flow diagram | `Mermaid` | [Diagrams](/docs/authoring-toolkit#diagrams) |
 | Attack and defence notes | `Callout` | [Callouts](/docs/authoring-toolkit#callouts) |
-| Concept checks | `Quiz` | [Concept check](/docs/authoring-toolkit#concept-check) |
+| Concept checks | `Quiz` | [Concept check](/docs/authoring-toolkit#graded-questions) |
 | Challenge steps | `Steps` | [Steps and file trees](/docs/authoring-toolkit#steps-and-file-trees) |
 | Hints and solution | `Hint`, `Solution` | [Hints and the reference solution](/docs/authoring-toolkit#hints-and-the-reference-solution) |
 | In-browser autograder | `PythonRunner` | [In-browser Python runner](/docs/authoring-toolkit#in-browser-python-runner) |
@@ -80,6 +80,9 @@ The lab's canary, `CANARY_SEC_9921_Z`, is 17 bytes. In base64 it becomes 24 char
 Test your understanding of the threat model before programming:
 
 <Quiz
+  labId="demo-guard"
+  id="substring"
+  points={5}
   question="Why is a simple substring match (e.g. `secret in output`) insufficient to catch canary token leaks?"
   options={[
     "LLMs cannot output exact substrings that appeared in their system prompts.",
@@ -92,6 +95,9 @@ Test your understanding of the threat model before programming:
 />
 
 <Quiz
+  labId="demo-guard"
+  id="benign"
+  points={5}
   question="The guard blocks every leak you test it with. Why also test a harmless reply?"
   options={[
     "Harmless replies are slower to check.",
@@ -104,6 +110,32 @@ Test your understanding of the threat model before programming:
 
 <Callout type="idea" title="For contributors">
 Ask two concept checks per lab at most: one on the threat model before the challenge, and one on a trap in the challenge itself. Every option should be a plausible mistake, and every explanation should say why.
+</Callout>
+
+<Blank
+  labId="demo-guard"
+  id="hex-method"
+  points={5}
+  prompt="In Python, the bytes method that returns a hexadecimal string is .___()"
+  answers={["hex", ".hex", "hex()", ".hex()"]}
+  explanation="bytes.hex() turns each byte into two hexadecimal characters, which is how the lab's canary becomes 34 characters."
+/>
+
+<ShortAnswer
+  labId="demo-guard"
+  id="rotate"
+  points={5}
+  question="Why should a canary token be different for every session, instead of one fixed string?"
+  rubric={[
+    { label: "A fixed canary can be learned or leaked once", anyOf: ["learn", "leak", "known", "memor", "reuse", "steal", "discover"] },
+    { label: "Once known, an attacker can avoid or strip it", anyOf: ["avoid", "strip", "remove", "bypass", "evade", "filter out", "work around"] },
+    { label: "A unique canary traces a leak to its session", anyOf: ["trace", "attribut", "which session", "identify", "unique", "per session", "each session"] },
+  ]}
+  modelAnswer="If every session used the same canary, an attacker who learned it once could tell the model to avoid or strip it from every reply, and you could not tell which session leaked. A fresh canary per session keeps the guard unpredictable and lets you trace any leak back to where it came from."
+/>
+
+<Callout type="idea" title="For contributors">
+Three more graded elements are available. Use a fill in the blank for one exact term, and a short answer when you want the learner to explain an idea. See the [authoring toolkit](/docs/authoring-toolkit#graded-questions).
 </Callout>
 
 ---

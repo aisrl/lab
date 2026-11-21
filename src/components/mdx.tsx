@@ -14,6 +14,8 @@ import { Mermaid } from './mdx/mermaid';
 
 // Custom AISRL Interactive Components
 import { Quiz } from './interactive/quiz';
+import { Blank } from './interactive/blank';
+import { ShortAnswer } from './interactive/short-answer';
 import { PythonRunner } from './interactive/python-runner';
 import { Hint } from './interactive/hint';
 import { LabProgress } from './interactive/lab-progress';
@@ -46,6 +48,8 @@ export function getMDXComponents(components?: MDXComponents) {
 
     // AISRL Interactive Components
     Quiz,
+    Blank,
+    ShortAnswer,
     PythonRunner,
     Hint,
     LabProgress,

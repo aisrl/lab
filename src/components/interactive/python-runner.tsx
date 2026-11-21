@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { awardPoints, registerItem, getItemPoints } from '@/lib/lab-progress';
 import { Play, RotateCcw, CheckCircle2, AlertCircle, Loader2, Award } from 'lucide-react';
 
 interface PythonRunnerProps {
@@ -31,15 +32,11 @@ export function PythonRunner({
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Check completion on mount
+  // Register this autograder's points with the lab, and restore an earlier pass.
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`aisrl_lab_${labId}`);
-      if (saved === 'completed') {
-        setIsCompleted(true);
-      }
-    }
-  }, [labId]);
+    registerItem(labId, 'autograder', points);
+    setIsCompleted(getItemPoints(labId, 'autograder') >= points);
+  }, [labId, points]);
 
   // Load Pyodide from CDN lazily
   const getPyodide = async () => {
@@ -108,20 +105,30 @@ exec(__student_code, globals())
 
 # 2. Execute Autograder Test Suite
 __test_code = ${JSON.stringify(testCode)}
-exec(__test_code, globals())
+_failed = ''
+try:
+    exec(__test_code, globals())
+except BaseException as _e:
+    _failed = type(_e).__name__ + ': ' + str(_e)
 
-_out = _stdout_buffer.getvalue()
-_err = _stderr_buffer.getvalue()
-_out + (_err if _err else '')
+import json
+json.dumps({'out': _stdout_buffer.getvalue() + _stderr_buffer.getvalue(), 'failed': _failed})
 `;
 
-      const result = await pyodide.runPythonAsync(harness);
-      setOutput(result || '✓ All tests completed with no errors.');
-      setStatus('passed');
-      setIsCompleted(true);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(`aisrl_lab_${labId}`, 'completed');
-        window.dispatchEvent(new Event('aisrl_progress_updated'));
+      const raw = await pyodide.runPythonAsync(harness);
+      const parsed = JSON.parse(raw) as { out: string; failed: string };
+      setOutput(parsed.out || '');
+      if (!parsed.failed) {
+        setOutput(parsed.out || '✓ All tests completed with no errors.');
+        setStatus('passed');
+        setIsCompleted(true);
+        awardPoints(labId, 'autograder', points);
+      } else {
+        // Partial credit: every check prints "(N pts)" when it passes.
+        const earned = Array.from(parsed.out.matchAll(/\((\d+) pts\)/g)).reduce((n, m) => n + Number(m[1]), 0);
+        if (earned > 0) awardPoints(labId, 'autograder', Math.min(earned, points - 1));
+        setStatus('failed');
+        setErrorDetails(parsed.failed);
       }
     } catch (err: any) {
       setStatus('failed');

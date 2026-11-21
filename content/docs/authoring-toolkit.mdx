@@ -7,7 +7,7 @@ Everything below is already registered, so you can use it in any `.mdx` lab file
 
 ## Lab header and score
 
-Put the header and the score at the top of every lab. The score fills in when a learner passes the in-browser runner with the same `labId`.
+Put the header and the score at the top of every lab. The score adds up every graded element on the page that shares its `labId`: quizzes, fill in the blanks, short answers and the autograder. The total is worked out for you, so there is no number to keep in sync. Try the demos below and watch it move.
 
 <LabHeader
   pillar="Pillar X: Your Pillar Name"
@@ -18,7 +18,7 @@ Put the header and the score at the top of every lab. The score fills in when a 
   author="Your Name"
 />
 
-<LabProgress labId="toolkit-demo" totalPoints={20} />
+<LabProgress labId="toolkit-demo" />
 
 ```mdx
 <LabHeader
@@ -31,7 +31,7 @@ Put the header and the score at the top of every lab. The score fills in when a 
   colabUrl="https://colab.research.google.com/..."   {/* optional */}
 />
 
-<LabProgress labId="your-lab-id" totalPoints={20} />
+<LabProgress labId="your-lab-id" />
 ```
 
 `difficulty` is `Beginner`, `Intermediate` or `Advanced`. The byline also comes from the page's `author` frontmatter.
@@ -64,11 +64,21 @@ Amber is for threat-model notes, caveats and thresholds.
 
 Types: `warn`, `error`, `success`, `info`, `idea`.
 
-## Concept check
+## Graded questions
 
-A single question with an explanation. Use one per section at most.
+Every question type takes the same three optional props, and they are what make it count toward the score:
+
+- `labId` ties it to the lab's score. Leave it off for a practice question that scores nothing.
+- `id` names it within the lab. It defaults to a name made from the question, so set it if you reword the question later.
+- `points` is what it is worth. The default is 5.
+
+Full points go to a first-try correct answer. After a wrong answer it is worth half, and a retry can only raise a score, never lower it.
+
+### Multiple choice
 
 <Quiz
+  labId="toolkit-demo"
+  id="demo-choice"
   question="Why is a plain substring match not enough to catch a leaked secret?"
   options={[
     "Models cannot repeat strings from their prompts.",
@@ -81,6 +91,9 @@ A single question with an explanation. Use one per section at most.
 
 ```mdx
 <Quiz
+  labId="your-lab-id"
+  id="substring"
+  points={5}
   question="Your question?"
   options={["Option A", "Option B", "Option C"]}
   correctIndex={1}
@@ -88,7 +101,64 @@ A single question with an explanation. Use one per section at most.
 />
 ```
 
-`correctIndex` counts from zero.
+`correctIndex` counts from zero. Every wrong option should be a plausible mistake.
+
+### Fill in the blank
+
+Best for one exact term. The answer is checked ignoring case and spacing, so list every spelling you will accept.
+
+<Blank
+  labId="toolkit-demo"
+  id="demo-blank"
+  prompt="The Python function that returns the length of a list is ___()"
+  answers={["len"]}
+  explanation="len() returns the number of items in a list, string or other sized object."
+/>
+
+```mdx
+<Blank
+  labId="your-lab-id"
+  id="hex-method"
+  points={5}
+  prompt="The bytes method that returns a hexadecimal string is .___()"
+  answers={["hex", ".hex", "hex()", ".hex()"]}
+  explanation="bytes.hex() turns each byte into two hexadecimal characters."
+/>
+```
+
+Put `___` (three underscores) where the blank goes. To accept a pattern instead of fixed words, write it between slashes, such as `"/^b(ase)?64$/i"`.
+
+### Short answer
+
+Best when you want the learner to explain an idea in their own words. It is graded against a rubric: each rubric item is an idea a good answer should contain, with a list of words that show it is there. Points are shared across the rubric, so an answer covering two of three ideas earns two thirds. The learner sees which ideas were covered and which were missing, then your model answer.
+
+<ShortAnswer
+  labId="toolkit-demo"
+  id="demo-short"
+  question="Why is a backup that is never tested a risk?"
+  rubric={[
+    { label: "You cannot be sure it works", anyOf: ["work", "sure", "certain", "assume", "trust"] },
+    { label: "Problems are found too late", anyOf: ["late", "disaster", "emergency", "when you need", "too late"] },
+  ]}
+  modelAnswer="An untested backup is an assumption. You only learn it is broken when you need it, which is the worst time to find out."
+/>
+
+```mdx
+<ShortAnswer
+  labId="your-lab-id"
+  id="rotate"
+  points={5}
+  minLength={40}
+  question="Why should a canary differ for every session?"
+  rubric={[
+    { label: "A fixed canary can be learned", anyOf: ["learn", "leak", "known", "memor"] },
+    { label: "A leak can be traced to a session", anyOf: ["trace", "which session", "unique"] },
+  ]}
+  modelAnswer="A model answer the learner sees after submitting."
+/>
+```
+
+This is a keyword check, so say so (the component already does). Write each `anyOf` list to cover the common ways to say an idea, including word stems such as `memor` for memory, memorise and memorised. It will sometimes miss a good answer in unusual words, which is why the model answer is always shown. Do not use it for anything that needs to be exactly right. Use a quiz or the autograder for that.
 
 ## Hints and the reference solution
 
@@ -117,7 +187,7 @@ Check how the function handles the input before it reaches the model.
 
 ## In-browser Python runner
 
-The runner loads Python in the browser (Pyodide), runs the learner's code, then runs your test script in the same session. If every `assert` passes, it records a pass under the `labId`. It needs the starting code, the test script and the points.
+The runner loads Python in the browser (Pyodide), runs the learner's code, then runs your test script in the same session. If every `assert` passes, the learner earns all `points`. If a check fails part way, they earn the points printed so far, so print `(5 pts)` at the end of each passing line. It needs the starting code, the test script and the points.
 
 ````mdx
 <PythonRunner

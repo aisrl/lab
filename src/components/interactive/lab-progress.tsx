@@ -1,54 +1,42 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { resetLab, useLabProgress } from '@/lib/lab-progress';
 
 interface LabProgressProps {
   labId: string;
-  totalPoints: number;
+  /** Optional. The total is the sum of every graded element on the page. This is only shown until they load. */
+  totalPoints?: number;
 }
 
 const STEP = 5;
 
-export function LabProgress({ labId, totalPoints }: LabProgressProps) {
-  const [completed, setCompleted] = useState(false);
+export function LabProgress({ labId, totalPoints = 0 }: LabProgressProps) {
+  const { earned, total: registered } = useLabProgress(labId);
   const [confirming, setConfirming] = useState(false);
 
-  useEffect(() => {
-    const check = () => {
-      try {
-        setCompleted(localStorage.getItem(`aisrl_lab_${labId}`) === 'completed');
-      } catch {
-        setCompleted(false);
-      }
-    };
-    check();
-    window.addEventListener('aisrl_progress_updated', check);
-    return () => window.removeEventListener('aisrl_progress_updated', check);
-  }, [labId]);
+  const total = registered || totalPoints;
+  const done = total > 0 && earned >= total;
+  const cells = Math.max(1, Math.round(total / STEP));
+  const filled = Math.min(cells, Math.round(earned / STEP));
 
   const reset = () => {
-    try {
-      localStorage.removeItem(`aisrl_lab_${labId}`);
-    } catch {
-      /* storage unavailable: nothing to clear */
-    }
-    setCompleted(false);
+    resetLab(labId);
     setConfirming(false);
-    window.dispatchEvent(new CustomEvent('aisrl_lab_reset', { detail: { labId } }));
-    window.dispatchEvent(new Event('aisrl_progress_updated'));
   };
 
-  const cells = Math.max(1, Math.round(totalPoints / STEP));
-  const earned = completed ? totalPoints : 0;
-
   return (
-    <div className="not-prose mt-0 mb-8 border-y-2 border-fd-foreground py-4" role="status" aria-live="polite">
+    <div className="not-prose mt-0 mb-8 border-y-2 border-fd-foreground py-4">
       <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
         <div>
           <p className="text-sm text-fd-muted-foreground">Your score</p>
-          <p className="mt-1 font-semibold leading-none tracking-tight text-fd-foreground text-4xl sm:text-5xl [font-variant-numeric:tabular-nums]">
+          <p
+            className="mt-1 font-semibold leading-none tracking-tight text-fd-foreground text-4xl sm:text-5xl [font-variant-numeric:tabular-nums]"
+            role="status"
+            aria-live="polite"
+          >
             {earned}
-            <span className="text-fd-muted-foreground"> / {totalPoints}</span>
+            <span className="text-fd-muted-foreground"> / {total}</span>
           </p>
         </div>
         <div className="flex-1 min-w-[12rem] max-w-sm">
@@ -57,13 +45,13 @@ export function LabProgress({ labId, totalPoints }: LabProgressProps) {
               <span
                 key={i}
                 className={`h-3 flex-1 border transition-colors duration-300 ${
-                  completed ? 'border-fd-success bg-fd-success' : 'border-fd-foreground/40 bg-transparent'
+                  i < filled ? (done ? 'border-fd-success bg-fd-success' : 'border-fd-primary bg-fd-primary') : 'border-fd-foreground/40 bg-transparent'
                 }`}
               />
             ))}
           </div>
-          <p className={`mt-2 text-sm font-medium ${completed ? 'text-fd-success' : 'text-fd-muted-foreground'}`}>
-            {completed ? 'Passed. All checks are green.' : 'Not completed yet. Run the autograder below.'}
+          <p className={`mt-2 text-sm font-medium ${done ? 'text-fd-success' : 'text-fd-muted-foreground'}`}>
+            {done ? 'Complete. Every part is done.' : earned > 0 ? 'In progress. Points count as you answer.' : 'Not started. Answer the questions and run the autograder.'}
           </p>
         </div>
       </div>
