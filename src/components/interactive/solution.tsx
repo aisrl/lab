@@ -1,47 +1,37 @@
 'use client';
 
-import { useState } from 'react';
-import { KeyRound, ChevronDown, Eye, EyeOff } from 'lucide-react';
+import { useId, useState } from 'react';
 
 interface SolutionProps {
   title?: string;
   children: React.ReactNode;
 }
 
-export function Solution({ title = 'View Reference Solution', children }: SolutionProps) {
+export function Solution({ title = 'View the reference solution', children }: SolutionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const panelId = useId();
 
   return (
-    <div className="my-6 rounded-xl border border-zinc-300 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/40 overflow-hidden shadow-xs">
+    <div className="not-prose my-6 border-l-[3px] border-fd-foreground pl-4">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-4 text-left text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer"
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        className="flex w-full cursor-pointer items-baseline justify-between gap-4 py-1.5 text-left text-[0.95rem] font-medium text-fd-foreground hover:text-fd-primary"
       >
-        <span className="flex items-center gap-2">
-          <KeyRound className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-          <span>{title}</span>
-          <span className="text-[11px] font-normal text-zinc-500 font-mono hidden sm:inline">
-            (Try solving it yourself first!)
-          </span>
+        <span>
+          {title}
+          <span className="ml-3 font-normal text-fd-muted-foreground">Try it yourself first.</span>
         </span>
-        <div className="flex items-center gap-1.5 text-zinc-500 text-xs font-mono">
-          <span>{isOpen ? 'Hide' : 'Reveal'}</span>
-          <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
-              isOpen ? 'rotate-180' : ''
-            }`}
-          />
-        </div>
+        <span aria-hidden="true" className="text-lg leading-none">{isOpen ? '−' : '+'}</span>
       </button>
-
-      {isOpen && (
-        <div className="p-4 pt-3 border-t border-zinc-200 dark:border-zinc-800/80 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed bg-white/70 dark:bg-black/30">
-          <div className="mb-3 text-xs text-zinc-600 dark:text-zinc-400">
-            Study this implementation to understand how the guardrail inspects plaintext, Base64, and hexadecimal encoding layers:
-          </div>
-          {children}
-        </div>
-      )}
+      <div id={panelId} hidden={!isOpen} className="pb-2 pt-2 text-[0.95rem] leading-relaxed text-fd-foreground">
+        <p className="mb-3 text-fd-muted-foreground">
+          Study how this implementation checks plain text, Base64 and hexadecimal.
+        </p>
+        {children}
+      </div>
     </div>
   );
 }

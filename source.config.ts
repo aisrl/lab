@@ -7,7 +7,7 @@ export default defineConfig({
   mdxOptions: {
     remarkPlugins: [
       remarkMath,
-      [remarkGitChangelog, { repository: { url: 'https://github.com/aisrl/lab' } }],
+      [remarkGitChangelog, { repository: { url: 'https://github.com/aisrl/lab' }, display: { showContributors: false } }],
     ],
     rehypePlugins: (v) => [rehypeKatex, ...v],
   },

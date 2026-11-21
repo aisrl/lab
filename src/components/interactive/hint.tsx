@@ -1,38 +1,31 @@
 'use client';
 
-import { useState } from 'react';
-import { Lightbulb, ChevronDown } from 'lucide-react';
+import { useId, useState } from 'react';
 
 interface HintProps {
   title?: string;
   children: React.ReactNode;
 }
 
-export function Hint({ title = 'Need a Hint?', children }: HintProps) {
+export function Hint({ title = 'Need a hint?', children }: HintProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const panelId = useId();
 
   return (
-    <div className="my-4 rounded-xl border border-amber-300 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/20 overflow-hidden shadow-2xs">
+    <div className="not-prose my-3 border-l-[3px] border-fd-primary pl-4">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-3.5 text-left text-xs sm:text-sm font-semibold text-amber-950 dark:text-amber-200 hover:bg-amber-100/60 dark:hover:bg-amber-900/30 transition-colors cursor-pointer"
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        className="flex w-full cursor-pointer items-baseline justify-between gap-4 py-1.5 text-left text-[0.95rem] font-medium text-fd-foreground hover:text-fd-primary"
       >
-        <span className="flex items-center gap-2">
-          <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-          <span>{title}</span>
-        </span>
-        <ChevronDown
-          className={`w-4 h-4 text-amber-700 dark:text-amber-400 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
-        />
+        <span>{title}</span>
+        <span aria-hidden="true" className="text-lg leading-none">{isOpen ? '−' : '+'}</span>
       </button>
-
-      {isOpen && (
-        <div className="p-4 pt-3 border-t border-amber-200 dark:border-amber-900/40 text-xs sm:text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed bg-white/60 dark:bg-black/30">
-          {children}
-        </div>
-      )}
+      <div id={panelId} hidden={!isOpen} className="pb-2 pt-1 text-[0.95rem] leading-relaxed text-fd-foreground">
+        {children}
+      </div>
     </div>
   );
 }

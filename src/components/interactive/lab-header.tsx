@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Cpu, Clock, ShieldCheck, Terminal, ExternalLink, Check, Copy } from 'lucide-react';
 
 export interface LabHeaderProps {
   pillar: string;
@@ -11,6 +10,7 @@ export interface LabHeaderProps {
   compute?: string;
   colabUrl?: string;
   githubPath?: string;
+  author?: string;
 }
 
 export function LabHeader({
@@ -21,14 +21,9 @@ export function LabHeader({
   compute = 'Laptop CPU / Docker',
   colabUrl,
   githubPath,
+  author,
 }: LabHeaderProps) {
   const [copied, setCopied] = useState(false);
-
-  const difficultyColors = {
-    Beginner: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
-    Intermediate: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
-    Advanced: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20',
-  }[difficulty];
 
   const handleCopy = () => {
     if (!githubPath) return;
@@ -37,60 +32,41 @@ export function LabHeader({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const rows: [string, string][] = [
+    ['Pillar', pillar],
+    ['Level', `${difficulty}, ${time}`],
+    ['Runs on', compute],
+    ['Graded by', 'A local pytest suite'],
+  ];
+  if (author) rows.push(['By', author]);
+
   return (
-    <div className="not-prose my-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-zinc-100/60 dark:from-zinc-900/80 dark:to-zinc-950/40 p-5 shadow-xs">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
-        <span className="text-xs font-semibold text-primary">
-          {pillar}
-        </span>
-        <div className="flex items-center gap-2">
-          <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${difficultyColors}`}>
-            {difficulty}
-          </span>
-          <span className="inline-flex items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700/60 bg-white/70 dark:bg-zinc-800/60 px-2.5 py-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">
-            <Clock className="w-3 h-3 text-zinc-400" />
-            {time}
-          </span>
-        </div>
-      </div>
-
-      <div className="mt-3">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-          {title}
-        </h2>
-      </div>
-
-      <div className="mt-3 flex flex-wrap items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
-        <div className="flex items-center gap-1.5">
-          <Cpu className="w-4 h-4 text-zinc-500" />
-          <span>Compute: <strong className="font-medium text-zinc-800 dark:text-zinc-200">{compute}</strong></span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-500" />
-          <span>Self-Grading: <strong className="font-medium text-zinc-800 dark:text-zinc-200">Pytest Local Suite</strong></span>
-        </div>
-      </div>
-
+    <div className="not-prose mt-8 mb-0">
+      <h2 className="font-semibold tracking-tight text-fd-foreground text-2xl sm:text-3xl mb-4">{title}</h2>
+      <table className="w-full border-collapse text-[0.95rem]">
+        <tbody>
+          {rows.map(([k, v], i) => (
+            <tr key={k} className={i === 0 ? 'border-t-2 border-fd-foreground' : 'border-t border-fd-border'}>
+              <th scope="row" className="w-28 sm:w-40 py-2 pr-4 text-left align-baseline font-normal text-fd-muted-foreground">{k}</th>
+              <td className="py-2 align-baseline text-fd-foreground">{v}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {(colabUrl || githubPath) && (
-        <div className="mt-4 flex flex-wrap items-center gap-2 pt-3 border-t border-zinc-200/80 dark:border-zinc-800/80">
+        <div className="flex flex-wrap gap-x-6 gap-y-2 border-t border-fd-border py-3 text-sm">
           {colabUrl && (
-            <a
-              href={colabUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30 px-3 py-1.5 text-xs font-medium transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Open in Google Colab (Free T4)
+            <a href={colabUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2">
+              Open in Google Colab
             </a>
           )}
           {githubPath && (
             <button
+              type="button"
               onClick={handleCopy}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-zinc-200/70 dark:bg-zinc-800 hover:bg-zinc-300/70 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 border border-zinc-300 dark:border-zinc-700 px-3 py-1.5 text-xs font-medium transition-colors cursor-pointer"
+              className="cursor-pointer font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Terminal className="w-3.5 h-3.5" />}
-              {copied ? 'Command Copied!' : `Copy pytest starter command`}
+              {copied ? 'Copied the pytest command' : 'Copy the pytest command'}
             </button>
           )}
         </div>
