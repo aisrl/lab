@@ -23,13 +23,25 @@ Explain the scenario in clear, accessible terms:
 Describe what an attacker can observe or execute (e.g. black-box API queries, poisoned training samples, side-channel memory traces).
 </Callout>
 
+<Mermaid chart="
+graph LR
+  Attacker[Adversary] -->|Untrusted Prompt| Model[Frontier Model]
+  Model -->|Exfiltration Attempt| Filter[Security Guardrail]
+  Filter -->|Pass: Sanitized| User[End User]
+  Filter -->|Fail: Alert| Logs[Audit Log]
+" />
+
 ---
 
 ## 2. Technical Background
 
 Briefly cover the core concepts needed to understand the lab:
 - Key terms, algorithms, or mechanics.
-- Mathematical principles or architectural foundations.
+- Mathematical principles or architectural foundations:
+
+$$
+\min_\delta \mathcal{L}(x + \delta, y) \quad \text{subject to} \quad \|\delta\|_\infty \le \epsilon
+$$
 
 ---
 

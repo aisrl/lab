@@ -9,6 +9,8 @@ import { Callout } from 'fumadocs-ui/components/callout';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { Banner } from 'fumadocs-ui/components/banner';
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom';
+import { Mermaid } from './mdx/mermaid';
 
 // Custom AISRL Interactive Components
 import { Quiz } from './interactive/quiz';
@@ -21,6 +23,7 @@ import { LabHeader } from './interactive/lab-header';
 export function getMDXComponents(components?: MDXComponents) {
   return {
     ...defaultMdxComponents,
+    img: (props: any) => <ImageZoom {...props} />,
     // Fumadocs Built-in Components
     Tab,
     Tabs,
@@ -38,6 +41,8 @@ export function getMDXComponents(components?: MDXComponents) {
     TypeTable,
     InlineTOC,
     Banner,
+    ImageZoom,
+    Mermaid,
 
     // AISRL Interactive Components
     Quiz,
