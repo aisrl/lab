@@ -222,3 +222,7 @@ html:has(.home) { scrollbar-color: var(--color-muted) var(--color-paper); }
 .home .ledger.ledger--ink { table-layout: auto; }
 .home .ledger--ink tbody th { overflow-wrap: anywhere; }
 .home .ledger--ink thead th:nth-child(2), .home .ledger--ink td:nth-child(2) { width: 6rem; }
+
+/* The maintainer link must read as a link to another site. */
+.home .foot__sign a { color: var(--color-accent); font-weight: 500; text-decoration-line: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+.home .foot__sign a:hover { color: var(--color-accent-2); text-decoration-thickness: 3px; }

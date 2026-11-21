@@ -34,8 +34,6 @@ export default function Layout({ children }: LayoutProps<'/'>) {
             <li><Link href="/docs">Curriculum</Link></li>
             <li><Link href="/docs/contributing">Contribute</Link></li>
             <li><a href={github}>GitHub</a></li>
-            <li><a href="/llms.txt">llms.txt</a></li>
-            <li><a href="/llms-full.txt">llms-full.txt</a></li>
           </ul>
         </div>
       </footer>
