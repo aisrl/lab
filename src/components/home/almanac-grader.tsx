@@ -102,9 +102,7 @@ export function AlmanacGrader() {
       <figcaption>
         {ran && score < 20
           ? 'Two leaks slipped through. Switch to the full guard and run it again.'
-          : ran
-            ? 'All four checks pass. The tutorial has you write this guard yourself.'
-            : 'The same four checks as the tutorial lab. Pick a guard, then run them.'}
+          : 'Example output from our lab template. Every finished lab grades itself locally.'}
       </figcaption>
     </figure>
   );

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { AlmanacGrader } from '@/components/home/almanac-grader';
 
-const tutorial = '/docs/interactive-tutorial/00-prompt-injection-guard';
 
 type Row = { no: string; name: string; labs: number; status: 'Active' | 'Roadmap'; href: string };
 
@@ -18,19 +17,19 @@ const contents: Row[] = [
 const readers = [
   {
     who: 'New to this',
-    line: 'Take the tutorial. It runs in your browser, needs no install and takes 30 to 45 minutes.',
-    cta: 'Open the tutorial',
-    href: tutorial,
-  },
-  {
-    who: 'Studying it',
-    line: 'Work through Pillar 1 or Pillar 2. Each lab pairs a writeup with starter code and tests.',
-    cta: 'See Pillar 1',
+    line: 'Start with the curriculum overview and the Pillar 1 threat models to see how AI security problems are scoped.',
+    cta: 'Browse Pillar 1',
     href: '/docs/pillar-1-hardware-crypto',
   },
   {
+    who: 'Studying it',
+    line: 'Read the Pillar 1 and 2 specs now, and star the repo to catch starter code and pytest suites as they ship.',
+    cta: 'See active pillars',
+    href: '/docs',
+  },
+  {
     who: 'Doing research',
-    line: 'Claim a planned lab, write it, and send it in. The contributor guide has the template.',
+    line: 'Claim a planned lab, write it, and send it in. The contributor guide includes a working reference template.',
     cta: 'Read the guide',
     href: '/docs/contributing',
   },
@@ -46,7 +45,7 @@ const checks = [
 const machines = [
   { what: 'Laptop CPU or Docker', limit: 'No GPU', pillars: '1, 2, 5, 7' },
   { what: 'Free Colab T4', limit: 'Under 15 minutes', pillars: '3, 4, 6' },
-  { what: 'API credits', limit: 'Under $2', pillars: '5, 6' },
+  { what: 'Free API tier or local model', limit: '$0, or under $2 on frontier APIs', pillars: '5, 6' },
   { what: 'Anything larger', limit: 'Cut or simulated', pillars: 'None' },
 ];
 
@@ -67,8 +66,8 @@ export default function HomePage() {
             <h1 id="hero-title" className="hero__head">Learn AI safety by building it.</h1>
             <p className="lead">Hands-on labs that grade themselves, on a laptop or free Colab.</p>
             <div className="actions">
-              <Link href={tutorial} className="btn btn--primary">Start the first lab</Link>
-              <Link href="/docs" className="btn btn--quiet">Browse the curriculum</Link>
+              <Link href="/docs" className="btn btn--primary">Browse the curriculum</Link>
+              <Link href="/docs/contributing" className="btn btn--quiet">Contribute a lab</Link>
             </div>
           </div>
 
@@ -97,7 +96,7 @@ export default function HomePage() {
                 ))}
               </tbody>
             </table>
-            <p className="ledger__foot">Labs per pillar as planned. Lab 12 is still to be written.</p>
+            <p className="ledger__foot">Pillars 1 and 2 are in active development. Threat models are live, with starter code and test suites rolling out first.</p>
           </div>
         </div>
       </section>
