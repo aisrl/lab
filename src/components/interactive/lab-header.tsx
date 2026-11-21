@@ -1,7 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
-
 export interface LabHeaderProps {
   pillar: string;
   title: string;
@@ -20,18 +18,8 @@ export function LabHeader({
   time = '15-20 mins',
   compute = 'Laptop CPU / Docker',
   colabUrl,
-  githubPath,
   author,
 }: LabHeaderProps) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    if (!githubPath) return;
-    navigator.clipboard.writeText(`cd ${githubPath} && pytest tests/`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const rows: [string, string][] = [
     ['Pillar', pillar],
     ['Level', `${difficulty}, ${time}`],
@@ -53,22 +41,11 @@ export function LabHeader({
           ))}
         </tbody>
       </table>
-      {(colabUrl || githubPath) && (
-        <div className="flex flex-wrap gap-x-6 gap-y-2 border-t border-fd-border py-3 text-sm">
-          {colabUrl && (
-            <a href={colabUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2">
-              Open in Google Colab
-            </a>
-          )}
-          {githubPath && (
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="cursor-pointer font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2"
-            >
-              {copied ? 'Copied the pytest command' : 'Copy the pytest command'}
-            </button>
-          )}
+      {colabUrl && (
+        <div className="border-t border-fd-border py-3 text-sm">
+          <a href={colabUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2">
+            Open in Google Colab
+          </a>
         </div>
       )}
     </div>
