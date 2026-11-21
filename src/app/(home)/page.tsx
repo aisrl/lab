@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { ContentsLedger } from '@/components/home/contents-ledger';
+import { AlmanacGrader } from '@/components/home/almanac-grader';
 
 const tutorial = '/docs/interactive-tutorial/00-prompt-injection-guard';
 
@@ -72,37 +74,7 @@ export default function HomePage() {
           </div>
 
           <div className="sheet hero__sheet">
-            <div className="ledger__cap">
-              <h2 className="ledger__title">Curriculum</h2>
-              <span className="ledger__note">37 labs planned</span>
-            </div>
-            <table className="ledger">
-              <thead>
-                <tr>
-                  <th scope="col" className="c-no">No.</th>
-                  <th scope="col">Pillar</th>
-                  <th scope="col" className="c-num">Labs</th>
-                  <th scope="col" className="c-status">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="is-start">
-                  <td className="c-no num">00</td>
-                  <th scope="row"><Link href={tutorial}>Tutorial: prompt injection guard</Link></th>
-                  <td className="c-num num">1</td>
-                  <td className="c-status">Start here</td>
-                </tr>
-                {contents.map((r) => (
-                  <tr key={r.no} className={r.status === 'Roadmap' ? 'is-planned' : undefined}>
-                    <td className="c-no num">{r.no}</td>
-                    <th scope="row"><Link href={r.href}>{r.name}</Link></th>
-                    <td className="c-num num">{r.labs}</td>
-                    <td className="c-status">{r.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p className="ledger__foot">Labs per pillar as planned. Lab 12 is still to be written.</p>
+            <ContentsLedger tutorial={tutorial} rows={contents} />
           </div>
         </div>
       </section>
@@ -132,35 +104,7 @@ export default function HomePage() {
             <h2 id="grade-title">Every lab grades itself.</h2>
             <p className="lead">Run the tests, read what fails, fix the code, run them again.</p>
           </div>
-          <figure className="grade__file">
-            <pre className="grade__cmd"><code>$ cd labs/interactive-tutorial/00-prompt-injection-guard{'\n'}$ pytest tests/</code></pre>
-            <table className="ledger ledger--ink">
-              <thead>
-                <tr>
-                  <th scope="col">Check</th>
-                  <th scope="col">Result</th>
-                  <th scope="col" className="c-num">Points</th>
-                </tr>
-              </thead>
-              <tbody>
-                {checks.map((c) => (
-                  <tr key={c.name}>
-                    <th scope="row" className="mono">{c.name}</th>
-                    <td className="mono">passed</td>
-                    <td className="c-num num mono">{c.pts}</td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th scope="row">Score</th>
-                  <td></td>
-                  <td className="c-num num mono">20 / 20</td>
-                </tr>
-              </tfoot>
-            </table>
-            <figcaption>Sample output for a finished solution. The starter code fails until you write the guard.</figcaption>
-          </figure>
+          <AlmanacGrader />
         </div>
       </section>
 
