@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 interface HintProps {
   title?: string;
@@ -10,6 +10,12 @@ interface HintProps {
 export function Hint({ title = 'Need a hint?', children }: HintProps) {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
+
+  useEffect(() => {
+    const onReset = () => setIsOpen(false);
+    window.addEventListener('aisrl_lab_reset', onReset);
+    return () => window.removeEventListener('aisrl_lab_reset', onReset);
+  }, []);
 
   return (
     <div className="not-prose my-3 border-l-[3px] border-fd-primary pl-4">

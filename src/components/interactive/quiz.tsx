@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface QuizProps {
   question: string;
@@ -16,6 +16,15 @@ export function Quiz({ question, options, correctIndex, explanation }: QuizProps
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const isCorrect = selected === correctIndex;
+
+  useEffect(() => {
+    const onReset = () => {
+      setSelected(null);
+      setSubmitted(false);
+    };
+    window.addEventListener('aisrl_lab_reset', onReset);
+    return () => window.removeEventListener('aisrl_lab_reset', onReset);
+  }, []);
 
   const handleSelect = (idx: number) => {
     if (submitted && isCorrect) return; // locked once correct

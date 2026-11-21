@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 interface SolutionProps {
   title?: string;
@@ -10,6 +10,12 @@ interface SolutionProps {
 export function Solution({ title = 'View the reference solution', children }: SolutionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
+
+  useEffect(() => {
+    const onReset = () => setIsOpen(false);
+    window.addEventListener('aisrl_lab_reset', onReset);
+    return () => window.removeEventListener('aisrl_lab_reset', onReset);
+  }, []);
 
   return (
     <div className="not-prose my-6 border-l-[3px] border-fd-foreground pl-4">

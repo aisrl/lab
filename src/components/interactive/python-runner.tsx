@@ -130,6 +130,21 @@ _out + (_err if _err else '')
     }
   };
 
+  // The lab's Reset control (in the score row) asks every part of the page to start over.
+  useEffect(() => {
+    const onReset = (e: Event) => {
+      const id = (e as CustomEvent<{ labId?: string }>).detail?.labId;
+      if (id && id !== labId) return;
+      setCode(initialCode);
+      setOutput('');
+      setErrorDetails(null);
+      setStatus('idle');
+      setIsCompleted(false);
+    };
+    window.addEventListener('aisrl_lab_reset', onReset);
+    return () => window.removeEventListener('aisrl_lab_reset', onReset);
+  }, [labId, initialCode]);
+
   const handleReset = () => {
     setCode(initialCode);
     setOutput('');

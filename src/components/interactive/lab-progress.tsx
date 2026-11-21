@@ -11,6 +11,7 @@ const STEP = 5;
 
 export function LabProgress({ labId, totalPoints }: LabProgressProps) {
   const [completed, setCompleted] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     const check = () => {
@@ -24,6 +25,18 @@ export function LabProgress({ labId, totalPoints }: LabProgressProps) {
     window.addEventListener('aisrl_progress_updated', check);
     return () => window.removeEventListener('aisrl_progress_updated', check);
   }, [labId]);
+
+  const reset = () => {
+    try {
+      localStorage.removeItem(`aisrl_lab_${labId}`);
+    } catch {
+      /* storage unavailable: nothing to clear */
+    }
+    setCompleted(false);
+    setConfirming(false);
+    window.dispatchEvent(new CustomEvent('aisrl_lab_reset', { detail: { labId } }));
+    window.dispatchEvent(new Event('aisrl_progress_updated'));
+  };
 
   const cells = Math.max(1, Math.round(totalPoints / STEP));
   const earned = completed ? totalPoints : 0;
@@ -53,6 +66,23 @@ export function LabProgress({ labId, totalPoints }: LabProgressProps) {
             {completed ? 'Passed. All checks are green.' : 'Not completed yet. Run the autograder below.'}
           </p>
         </div>
+      </div>
+      <div className="mt-3 flex items-baseline gap-4 text-sm">
+        {confirming ? (
+          <>
+            <span className="text-fd-muted-foreground">Clear your score and start the lab over?</span>
+            <button type="button" onClick={reset} className="cursor-pointer font-medium text-fd-error underline underline-offset-4 hover:decoration-2">
+              Yes, reset
+            </button>
+            <button type="button" onClick={() => setConfirming(false)} className="cursor-pointer font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2">
+              Cancel
+            </button>
+          </>
+        ) : (
+          <button type="button" onClick={() => setConfirming(true)} className="cursor-pointer font-medium text-fd-foreground underline decoration-fd-primary underline-offset-4 hover:decoration-2">
+            Reset this lab
+          </button>
+        )}
       </div>
     </div>
   );
