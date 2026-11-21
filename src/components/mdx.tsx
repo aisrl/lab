@@ -5,7 +5,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { File, Files, Folder } from 'fumadocs-ui/components/files';
 import { Card, Cards } from 'fumadocs-ui/components/card';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
-import { Callout } from 'fumadocs-ui/components/callout';
+import { Callout } from './mdx/callout';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 import { InlineTOC } from 'fumadocs-ui/components/inline-toc';
 import { Banner } from 'fumadocs-ui/components/banner';
