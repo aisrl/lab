@@ -1,0 +1,25 @@
+[
+ {
+  "shape": "Index-First",
+  "theme": "almanac",
+  "hero": "Settled",
+  "nav": "edge-aligned",
+  "footer": "letter close",
+  "imagery": "none",
+  "entry": "variation 1",
+  "signature": "curriculum contents table with start row in magenta",
+  "sections": [
+   "Hero",
+   "Rows",
+   "Band",
+   "Table",
+   "Index",
+   "Statement",
+   "Footer"
+  ],
+  "waived": [],
+  "prompt": "AISRL landing page",
+  "date": "2026-11-21",
+  "mode": "build"
+ }
+]
