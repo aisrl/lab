@@ -12,3 +12,52 @@ html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
 }
+
+/* AISRL docs theme: the Almanac palette, light only. Slate chrome, a pale printed sheet for reading, one magenta. */
+@theme {
+  --color-fd-background: oklch(93.5% 0.008 245);
+  --color-fd-foreground: oklch(24% 0.018 245);
+  --color-fd-muted: oklch(88% 0.010 245);
+  --color-fd-muted-foreground: oklch(38% 0.016 245);
+  --color-fd-popover: oklch(96% 0.006 245);
+  --color-fd-popover-foreground: oklch(24% 0.018 245);
+  --color-fd-card: oklch(90% 0.010 245);
+  --color-fd-card-foreground: oklch(20% 0.02 245);
+  --color-fd-border: oklch(78% 0.013 240);
+  --color-fd-primary: oklch(45% 0.18 350);
+  --color-fd-primary-foreground: oklch(97% 0.006 245);
+  --color-fd-secondary: oklch(89% 0.010 245);
+  --color-fd-secondary-foreground: oklch(20% 0.02 245);
+  --color-fd-accent: oklch(85% 0.012 245);
+  --color-fd-accent-foreground: oklch(20% 0.02 245);
+  --color-fd-ring: oklch(46% 0.19 350);
+  --color-fd-overlay: oklch(16% 0.02 245 / 0.25);
+
+  --radius-xs: 0; --radius-sm: 0; --radius-md: 2px; --radius-lg: 2px; --radius-xl: 2px; --radius-2xl: 2px; --radius-3xl: 2px;
+  --shadow-2xs: none; --shadow-xs: none; --shadow-sm: none; --shadow-md: none; --shadow-lg: none;
+
+  --font-mono: var(--font-plex), ui-monospace, monospace;
+
+  /* The lab components use Tailwind's purple and zinc; point them at the Almanac. */
+  --color-purple-50: oklch(95% 0.02 350); --color-purple-100: oklch(92% 0.03 350); --color-purple-200: oklch(85% 0.06 350); --color-purple-300: oklch(75% 0.10 350); --color-purple-400: oklch(62% 0.17 350); --color-purple-500: oklch(52% 0.19 350); --color-purple-600: oklch(45% 0.18 350); --color-purple-700: oklch(40% 0.17 350); --color-purple-800: oklch(34% 0.15 350); --color-purple-900: oklch(28% 0.12 350); --color-purple-950: oklch(20% 0.08 350);
+  --color-zinc-50: oklch(97% 0.005 245); --color-zinc-100: oklch(94% 0.008 245); --color-zinc-200: oklch(88% 0.010 245); --color-zinc-300: oklch(80% 0.012 245); --color-zinc-400: oklch(66% 0.014 245); --color-zinc-500: oklch(52% 0.016 245); --color-zinc-600: oklch(42% 0.016 245); --color-zinc-700: oklch(34% 0.018 245); --color-zinc-800: oklch(26% 0.018 245); --color-zinc-900: oklch(20% 0.02 245); --color-zinc-950: oklch(14% 0.02 245);
+}
+@theme static {
+  --color-fd-info: oklch(48% 0.12 250);
+  --color-fd-warning: oklch(60% 0.14 75);
+  --color-fd-error: oklch(52% 0.18 20);
+  --color-fd-success: oklch(50% 0.12 155);
+  --color-fd-idea: oklch(60% 0.14 75);
+}
+
+html:root { font-family: var(--font-newsreader), ui-serif, Georgia, serif; font-size: 17px; }
+body { font-family: inherit; }
+h1, h2, h3, h4, h5, h6, #nd-sidebar, #nd-toc, #nd-nav, button, [role="tab"], summary { font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif; }
+h1, h2, h3, h4 { letter-spacing: -0.02em; font-weight: 600; text-wrap: balance; }
+.prose { font-family: var(--font-newsreader), ui-serif, Georgia, serif; line-height: 1.7; }
+.prose a { text-decoration-color: var(--color-fd-primary); text-underline-offset: 0.15em; }
+.prose :where(h1, h2, h3, h4) { font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif; }
+.prose :where(code):not(pre code) { font-family: var(--font-plex), ui-monospace, monospace; }
+
+.aisrl-notice { padding: 0.6rem 1.5rem; background: var(--color-fd-muted); border-bottom: 2px solid var(--color-fd-foreground); font-size: 0.9rem; text-align: center; color: var(--color-fd-foreground); }
+.aisrl-notice a { font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif; font-weight: 500; text-decoration-color: var(--color-fd-primary); text-underline-offset: 0.15em; }

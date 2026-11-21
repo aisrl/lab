@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ContentsLedger } from '@/components/home/contents-ledger';
 import { AlmanacGrader } from '@/components/home/almanac-grader';
 
 const tutorial = '/docs/interactive-tutorial/00-prompt-injection-guard';
@@ -74,7 +73,31 @@ export default function HomePage() {
           </div>
 
           <div className="sheet hero__sheet">
-            <ContentsLedger tutorial={tutorial} rows={contents} />
+            <div className="ledger__cap">
+              <h2 className="ledger__title">Curriculum</h2>
+              <span className="ledger__note">37 labs planned</span>
+            </div>
+            <table className="ledger">
+              <thead>
+                <tr>
+                  <th scope="col" className="c-no">No.</th>
+                  <th scope="col">Pillar</th>
+                  <th scope="col" className="c-num">Labs</th>
+                  <th scope="col" className="c-status">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contents.map((r) => (
+                  <tr key={r.no} className={r.status === 'Roadmap' ? 'is-planned' : undefined}>
+                    <td className="c-no num">{r.no}</td>
+                    <th scope="row"><Link href={r.href}>{r.name}</Link></th>
+                    <td className="c-num num">{r.labs}</td>
+                    <td className="c-status">{r.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="ledger__foot">Labs per pillar as planned. Lab 12 is still to be written.</p>
           </div>
         </div>
       </section>

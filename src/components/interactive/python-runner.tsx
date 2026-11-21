@@ -161,10 +161,7 @@ _out + (_err if _err else '')
       {/* Editor Header */}
       <div className="flex items-center justify-between px-4 py-3 bg-zinc-100 dark:bg-zinc-900/70 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-          <span className="ml-2 font-mono text-xs text-zinc-700 dark:text-zinc-300 font-medium">
+          <span className="font-mono text-xs text-zinc-700 dark:text-zinc-300 font-medium">
             solution.py (In-Browser WebAssembly)
           </span>
         </div>

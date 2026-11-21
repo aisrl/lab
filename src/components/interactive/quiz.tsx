@@ -29,7 +29,7 @@ export function Quiz({ question, options, correctIndex, explanation }: QuizProps
 
   return (
     <div className="my-6 rounded-xl border border-zinc-300 dark:border-zinc-800 bg-zinc-50/90 dark:bg-zinc-900/50 p-5 shadow-xs">
-      <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-purple-700 dark:text-purple-400 font-bold mb-2">
+      <div className="flex items-center gap-2 text-xs font-mono text-purple-700 dark:text-purple-400 font-bold mb-2">
         <HelpCircle className="w-4 h-4" />
         <span>Concept Check</span>
       </div>

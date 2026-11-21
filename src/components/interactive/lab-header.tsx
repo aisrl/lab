@@ -40,7 +40,7 @@ export function LabHeader({
   return (
     <div className="not-prose my-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-zinc-50 to-zinc-100/60 dark:from-zinc-900/80 dark:to-zinc-950/40 p-5 shadow-xs">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+        <span className="text-xs font-semibold text-primary">
           {pillar}
         </span>
         <div className="flex items-center gap-2">
